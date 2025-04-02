@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('contenu_pdf')->nullable();
 
             $table->string('contenu_exercice')->nullable();
-            $table->string('solution_exercice')->nullable();
+            $table->string('solution_exercice_video')->nullable();
+            $table->text('solution_exercice_text')->nullable();
             $table->enum('difficulte_exercice',['facile','moyen','difficile'])->nullable();
 
             $table->integer('nombre_question_quiz')->nullable();
