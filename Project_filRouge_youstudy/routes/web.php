@@ -41,3 +41,15 @@ Route::get('/exercicesPartie',function(){
 Route::get('/dashboardAdmin',function(){
     return view('admin.dashboard.index');
 })->name('dashboardAdmin');
+
+Route::get('/users',function(){
+    return view('admin.users.index');
+})->name('users');
+
+Route::get('/chapitres',function(){
+    return view('admin.chapitres.index');
+})->name('chapitres');
+
+Route::get('/cours',function(){
+    return view('admin.cours.index');
+})->name('cours');

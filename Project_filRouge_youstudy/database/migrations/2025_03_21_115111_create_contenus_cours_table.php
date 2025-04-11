@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('url_video')->nullable();
             $table->integer('duree_video')->nullable();
 
-            $table->string('contenu_pdf')->nullable();
+            $table->string('contenu_definition')->nullable();
+            $table->string('contenu_propriete')->nullable();
+            $table->string('contenu_exemple')->nullable();
 
             $table->string('contenu_exercice')->nullable();
             $table->string('solution_exercice_video')->nullable();
