@@ -33,115 +33,35 @@
                 </div>
             </div>
 
-            <!-- Étape 1: Informations de base -->
-            <div id="step1" class="mt-8 space-y-6">
+            <!-- Affichage des erreurs de validation -->
+            @if ($errors->any())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Formulaire d'inscription -->
+            <form action="{{ route('register') }}" method="POST" class="mt-8 space-y-6">
+                @csrf
                 <div class="space-y-4">
-                    {{-- <div>
-                        <label class="block text-sm font-medium text-gray-700">Type de compte</label>
-                        <select id="accountType" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
-                            <option value="">Sélectionnez votre profil</option>
-                            <option value="etudiant">Étudiant</option>
-                            <option value="enseignant">Enseignant</option>
-                        </select>
-                    </div> --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Nom complet</label>
-                        <input type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Nom complet</label>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]" required>
                     </div>
                 </div>
-                <button onclick="nextStep(2)" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#FF7D29] hover:bg-opacity-90">
+                <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#FF7D29] hover:bg-opacity-90">
                     Continuer
                 </button>
-            </div>
-
-            <!-- Étape 2: Vérification -->
-            <div id="step2" class="mt-8 space-y-6 hidden">
-                <div class="space-y-4">
-                    <p class="text-center text-sm text-gray-600">Un code de vérification a été envoyé à votre adresse email</p>
-                    <div class="flex justify-center space-x-2">
-                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
-                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
-                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
-                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
-                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
-                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
-                    </div>
-                </div>
-                <div class="flex space-x-4">
-                    <button onclick="prevStep(1)" class="w-1/2 py-2 px-4 border border-[#FF7D29] rounded-md shadow-sm text-sm font-medium text-[#FF7D29] bg-white hover:bg-gray-50">
-                        Retour
-                    </button>
-                    <button onclick="nextStep(3)" class="w-1/2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#FF7D29] hover:bg-opacity-90">
-                        Vérifier
-                    </button>
-                </div>
-            </div>
-
-            <!-- Étape 3: Finalisation -->
-            <div id="step3" class="mt-8 space-y-6 hidden">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Mot de passe</label>
-                        <input type="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
-                        <input type="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]">
-                    </div>
-                </div>
-                <div class="flex space-x-4">
-                    <button onclick="prevStep(2)" class="w-1/2 py-2 px-4 border border-[#FF7D29] rounded-md shadow-sm text-sm font-medium text-[#FF7D29] bg-white hover:bg-gray-50">
-                        Retour
-                    </button>
-                    <button onclick="finishRegistration()" class="w-1/2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#FF7D29] hover:bg-opacity-90">
-                        Terminer
-                    </button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
-
-    <script>
-        function nextStep(step) {
-            // Cacher l'étape actuelle
-            document.getElementById('step' + (step-1)).classList.add('hidden');
-            // Afficher la nouvelle étape
-            document.getElementById('step' + step).classList.remove('hidden');
-            
-            // Mettre à jour les indicateurs
-            document.getElementById('step' + step + '-indicator').classList.remove('bg-gray-300');
-            document.getElementById('step' + step + '-indicator').classList.add('bg-[#FF7D29]');
-            
-            // Mettre à jour les lignes de progression
-            if(step > 1) {
-                document.getElementById('line' + (step-1)).classList.remove('bg-gray-300');
-                document.getElementById('line' + (step-1)).classList.add('bg-[#FF7D29]');
-            }
-        }
-
-        function prevStep(step) {
-            // Cacher l'étape actuelle
-            document.getElementById('step' + (step+1)).classList.add('hidden');
-            // Afficher l'étape précédente
-            document.getElementById('step' + step).classList.remove('hidden');
-            
-            // Mettre à jour les indicateurs
-            document.getElementById('step' + (step+1) + '-indicator').classList.remove('bg-[#FF7D29]');
-            document.getElementById('step' + (step+1) + '-indicator').classList.add('bg-gray-300');
-            
-            // Mettre à jour les lignes de progression
-            document.getElementById('line' + step).classList.remove('bg-[#FF7D29]');
-            document.getElementById('line' + step).classList.add('bg-gray-300');
-        }
-
-        function finishRegistration() {
-            
-            window.location.href = '{{ route('showLogin')}}';
-        }
-    </script>
 </body>
-</html> 
+</html>
