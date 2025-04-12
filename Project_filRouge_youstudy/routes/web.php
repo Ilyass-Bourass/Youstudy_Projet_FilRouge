@@ -7,7 +7,8 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/register', [AuthController::class, 'showRegister'])->name('showregister');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('showRegister');
+
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/verification', [AuthController::class, 'showVerification'])->name('verification.notice');
@@ -21,6 +22,8 @@ Route::post('/complete-registration', [AuthController::class, 'completeRegistrat
 Route::get('/login',[AuthController::class,'showLogin'])->name('showLogin');
 
 Route::post('/login',[AuthController::class,'login'])->name('login');
+
+Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 
 
 

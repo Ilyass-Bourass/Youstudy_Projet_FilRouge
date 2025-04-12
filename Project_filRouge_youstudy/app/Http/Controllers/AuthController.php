@@ -110,14 +110,23 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string',
         ]);
 
+
+        $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect()->route('dashboardUser');
+        }
+        // Si l'authentification échoue, on vérifie si l'utilisateur a vérifié son email
+        $user = User::where('email', $request->email)->first(); 
+        if ($user && !$user->email_verified_at) {
+            return back()->withErrors([
+                'email' => 'Votre adresse e-mail n\'a pas été vérifiée. Veuillez vérifier votre e-mail.',
+            ]);
         }
 
         return back()->withErrors([
@@ -125,11 +134,11 @@ class AuthController extends Controller
         ]);
     }
 
-    // public function logout(Request $request)
-    // {
-    //     Auth::logout();
-    //     $request->session()->invalidate();
-    //     $request->session()->regenerateToken();
-    //     return redirect('/');
-    // }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    }
 }

@@ -16,18 +16,24 @@
             </div>
 
             <!-- Formulaire de connexion -->
-            <form action =" {{ route('login') }} " method="POST" class="mt-8 space-y-6">
+            <form action ={{Route('login')}} method="POST" class="mt-8 space-y-6">
                 @csrf
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Erreur !</strong>
+                        <span class="block sm:inline">{{ $errors->first() }}</span>
+                    </div>
+                @endif
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" 
+                        <input type="email"  name="email"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]" 
                             required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mot de passe</label>
-                        <input type="password" 
+                        <input type="password" name="password"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#FF7D29] focus:border-[#FF7D29]" 
                             required>
                     </div>
@@ -78,7 +84,7 @@
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">
                     Pas encore de compte ?
-                    <a href="{{ route('register')}}" class="font-medium text-[#FF7D29] hover:text-opacity-90">
+                    <a href="{{ route('showRegister')}}" class="font-medium text-[#FF7D29] hover:text-opacity-90">
                         S'inscrire
                     </a>
                 </p>

@@ -99,7 +99,7 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-700">Admin</p>
-                <a href="#" class="text-xs text-secondary hover:text-primary transition-colors">
+                <a href={{Route('logout')}} class="text-xs text-secondary hover:text-primary transition-colors">
                     Se déconnecter
                 </a>
             </div>

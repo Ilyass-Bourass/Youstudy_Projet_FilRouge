@@ -44,7 +44,7 @@
 
         <!-- Logout en bas fixe -->
         <div class="absolute bottom-0 left-0 w-full p-4 bg-white border-t">
-            <a href="#" class="sidebar-link flex items-center  px-4 py-3 rounded-xl text-gray-700  hover:bg-red-500 hover:text-white transition duration-300">
+            <a href={{Route('logout')}} class="sidebar-link flex items-center  px-4 py-3 rounded-xl text-gray-700  hover:bg-red-500 hover:text-white transition duration-300">
                 <i class="fas fa-sign-out-alt w-5"></i>
                 <span class="ml-3">Logout</span>
             </a>
