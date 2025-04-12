@@ -119,7 +119,12 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('dashboardUser');
+            // Vérification du rôle de l'utilisateur
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('dashboardAdmin');
+            } elseif (Auth::user()->role === 'user') {
+                return redirect()->route('dashboardUser');
+            }
         }
         // Si l'authentification échoue, on vérifie si l'utilisateur a vérifié son email
         $user = User::where('email', $request->email)->first(); 
