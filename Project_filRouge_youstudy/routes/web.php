@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -40,10 +41,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         return view('admin.chapitres.index');
     })->name('chapitres');
     
-    Route::get('/cours',function(){
-        return view('admin.cours.index');
-    })->name('cours');
+    Route::get('/cours',[CourController::class,'index'])->name('cours');
     
+    Route::post('Create_cour',[CourController::class,'create'])->name('Create_cour');
+    Route::post('/deleteCour/{id}',[CourController::class,'destroy'])->name('delete_cour');
+    Route::get('/editCour/{id}',[CourController::class,'edit'])->name('edit_cour');
+    Route::put('/updateCour/{id}', [CourController::class, 'update'])->name('update_cour');
 
 });
 
@@ -72,6 +75,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/exercicesPartie',function(){
         return view('user.ContenusCour.exercicesPartie');
     })->name('exercicesPartie');
+
+    Route::post('/updateCour/{id}',[CourController::class,'update'])->name('update_cour');
 
 });
 

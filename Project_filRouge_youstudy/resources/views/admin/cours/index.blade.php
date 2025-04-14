@@ -1,3 +1,8 @@
+<?php
+  //  dd($cours);
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -69,6 +74,8 @@
                     <h2 class="text-xl font-bold text-secondary">Liste des Cours</h2>
                     <div class="flex space-x-4">
                         <!-- Filtre Niveau -->
+                       
+
                         <select class="px-4 py-2 rounded-xl bg-white bg-opacity-50 border border-primary border-opacity-20 focus:outline-none focus:border-secondary">
                             <option value="">Tous les niveaux</option>
                             <option value="tron_commun">Tronc Commun</option>
@@ -106,6 +113,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-primary divide-opacity-20">
+                            @foreach($cours as $cour)
                             <tr class="hover:bg-white hover:bg-opacity-50 transition-colors">
                                 <td class="py-4">
                                     <div class="flex items-center space-x-3">
@@ -113,26 +121,26 @@
                                             <i class="fas fa-book text-primary"></i>
                                         </div>
                                         <div>
-                                            <p class="font-medium">Fonctions Numériques</p>
-                                            <p class="text-sm text-gray-500">3 parties</p>
+                                            <p class="font-medium">{{$cour->titre}}</p>
+                                            <p class="text-sm text-gray-500">2 parties</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="py-4">
                                     <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
-                                        2ème Bac
+                                        {{$cour->niveau}}
                                     </span>
                                 </td>
                                 <td class="py-4">
                                     <span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm">
-                                        Mathématiques
+                                        {{$cour->matiere_cour}}
                                     </span>
                                 </td>
                                 <td class="py-4 text-gray-600">3 parties</td>
                                 <td class="py-4">
                                     <div class="flex space-x-2">
                                         <!-- Modifier -->
-                                        <button class="p-2 text-primary hover:bg-primary hover:bg-opacity-10 rounded-lg transition-colors" 
+                                        <button onclick="window.location.href='{{Route('edit_cour',$cour->id)}}'" class="p-2 text-primary hover:bg-primary hover:bg-opacity-10 rounded-lg transition-colors" 
                                                 title="Modifier">
                                             <i class="fas fa-edit"></i>
                                         </button>
@@ -144,23 +152,41 @@
                                         </button>
 
                                         <!-- Voir Détails -->
-                                        <button class="p-2 text-blue-500 hover:bg-blue-100 rounded-lg transition-colors"
-                                                title="Voir les détails">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
+                                        
+                                            <button   class="p-2 text-blue-500 hover:bg-blue-100 rounded-lg transition-colors"
+                                                    title="Voir les détails">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        
 
                                         <!-- Supprimer -->
-                                        <button class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
-                                                title="Supprimer">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                        <form method="POST" action={{route('delete_cour',$cour->id)}}>
+                                            @csrf
+                                            <button class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
+                                                    title="Supprimer">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
+            @if(session('success'))
+                <div class="mt-4 p-4 bg-green-100 text-green-800 rounded-lg">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @error('order')
+                <div class="mt-4 p-4 bg-red-100 text-red-800 rounded-lg">
+                    {{ $message }}
+                </div>
+            @enderror
+
 
             <!-- Modal Ajout Cours -->
             <div id="courseModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
@@ -173,9 +199,15 @@
                             </button>
                         </div>
 
-                        <form action="#" method="POST" class="space-y-6">
+                        <form action="{{Route('Create_cour')}}" method="POST" class="space-y-6">
                             @csrf
-                            
+
+                            <!-- order de cour -->
+                            <div>
+                                <label for="order" class="block text-gray-700 mb-2">Ordre</label>
+                                <input id="order" type="number" name="order_cour" min="1" placeholder="Ordre" 
+                                       class="px-4 py-2 rounded-xl bg-white bg-opacity-50 border border-primary border-opacity-20 focus:outline-none focus:border-secondary">
+                            </div>
                             <!-- Niveau -->
                             <div>
                                 <label class="block text-gray-700 mb-2">Niveau</label>
@@ -231,6 +263,11 @@
                     </div>
                 </div>
             </div>
+
+          
+
+           
+
 
             <!-- Modal Ajout Partie -->
             <div id="partieModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
@@ -434,6 +471,8 @@
                     document.getElementById('courseModal').classList.add('hidden');
                     document.body.style.overflow = 'auto';
                 }
+
+               
 
                 let questionCount = 1;
 
