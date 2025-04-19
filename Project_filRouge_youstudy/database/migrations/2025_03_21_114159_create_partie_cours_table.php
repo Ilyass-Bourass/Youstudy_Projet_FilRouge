@@ -13,9 +13,25 @@ return new class extends Migration
     {
         Schema::create('partie_cours', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('cour_id')->constrained('cours')->onDelete('cascade'); 
+            // Infos de base
             $table->string('titre');
-            $table->integer('order');
-            $table->foreignId('cour_id')->constrained('cours')->onDelete('cascade');
+            $table->integer('order')->default(1);
+    
+            // Contenu théorique
+            $table->longText('contenu_definition')->nullable();
+            $table->longText('contenu_propriete')->nullable();
+            $table->longText('contenu_exemple')->nullable();
+    
+            // Vidéo du cours
+            $table->string('url_video')->nullable();
+    
+            // Exercice
+            $table->longText('contenu_exercice')->nullable();
+            $table->string('solution_exercice_video')->nullable();
+            $table->longText('solution_exercice_text')->nullable();
+            $table->enum('difficulte_exercice', ['facile', 'moyen', 'difficile'])->nullable();
+    
             $table->timestamps();
         });
     }

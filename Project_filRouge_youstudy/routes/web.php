@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourController;
+use App\Http\Controllers\PartieCourController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,6 +28,8 @@ Route::post('/complete-registration', [AuthController::class, 'completeRegistrat
 
 
 
+
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/dashboardAdmin',function(){
@@ -48,6 +51,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/editCour/{id}',[CourController::class,'edit'])->name('edit_cour');
     Route::put('/updateCour/{id}', [CourController::class, 'update'])->name('update_cour');
 
+    Route::post('/addChapitre',[PartieCourController::class,'create'])->name('addChapitre');
+
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -64,9 +69,11 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         return view('user.partie_cour');
     })->name('partie_cour');
     
-    Route::get('/ContenuCour',function(){
-        return view('user.ContenusCour.contenuCour');
-    })->name('ContenuCour');
+    // Route::get('/ContenuCour',function(){
+    //     return view('user.ContenusCour.contenuCour');
+    // })->name('ContenuCour');
+
+    Route::get('/ContenuCour',[PartieCourController::class,'show'])->name('ContenuCour');
     
     Route::get('/quizPartie',function(){
         return view('user.ContenusCour.quizPartie');

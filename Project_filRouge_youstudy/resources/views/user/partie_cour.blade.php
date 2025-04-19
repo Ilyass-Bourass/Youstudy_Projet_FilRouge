@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,11 +21,11 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .hover-scale {
             transition: all 0.3s ease;
         }
-        
+
         .hover-scale:hover {
             transform: scale(1.02);
         }
@@ -66,18 +67,30 @@
         }
     </script>
 </head>
+
 <body class="bg-cream">
     <div class="flex h-screen">
         @include('layouts.navUser')
 
         <!-- Main Content -->
-        <div class="flex-1 overflow-auto p-8">
+        <div class="flex-1 overflow-auto p-4 md:p-8">
             <!-- Header du cours -->
-            <div class="bg-white rounded-2xl p-8 mb-8 card-shadow">
-                <h1 class="text-2xl font-bold text-gray-800 mb-4">Mathématiques - Analyse</h1>
-                <p class="text-gray-600">Progression globale du cours</p>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+                <div class="bg-white rounded-2xl p-6 md:p-8 card-shadow w-full">
+                    <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-4">Mathématiques - Analyse</h1>
+                    <p class="text-sm md:text-base text-gray-600">Progression globale du cours</p>
+                </div>
+                <div>
+                    <select
+                        class="w-full md:w-auto bg-white border border-gray-300 text-gray-700 py-2 md:py-3 px-3 md:px-4 pr-8 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-primary"
+                        name="niveau" id="niveau">
+                        <option value="">Sélectionner votre niveau</option>
+                        <option value="tron_commun">Tronc commun</option>
+                        <option value="premier_bac">Première année Bac</option>
+                        <option value="deuxieme_bac">Deuxième année Bac</option>
+                    </select>
+                </div>
             </div>
-
             <!-- Liste des chapitres -->
             <div class="space-y-4">
                 <!-- Chapitre 01 -->
@@ -124,7 +137,8 @@
                         <!-- Sous-parties -->
                         <div class="ml-16 space-y-3 mt-4">
                             <a href="{{ route('ContenuCour') }}" class="block">
-                                <div class="flex items-center justify-between p-4 bg-cream rounded-lg hover:bg-yellow-light transition-all">
+                                <div
+                                    class="flex items-center justify-between p-4 bg-cream rounded-lg hover:bg-yellow-light transition-all">
                                     <div>
                                         <span class="text-green-500 font-medium">PARTIE 1 :</span>
                                         <span class="ml-2">La fonction racine n-ième</span>
@@ -191,4 +205,5 @@
         </div>
     </div>
 </body>
+
 </html>

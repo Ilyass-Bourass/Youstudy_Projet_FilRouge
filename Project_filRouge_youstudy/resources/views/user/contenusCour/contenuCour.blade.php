@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+
+<head>rs
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cours - YouStudy</title>
+    <title>{{ $partieCour->titre }} - YouStudy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- KaTeX pour les formules mathématiques -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <!-- MathJax configuration -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [
+                    ['$', '$'],
+                    ['\\(', '\\)']
+                ]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <style>
         :root {
             --orange-primary: #FF7D29;
@@ -23,11 +39,11 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .hover-scale {
             transition: all 0.3s ease;
         }
-        
+
         .hover-scale:hover {
             transform: scale(1.02);
         }
@@ -69,6 +85,7 @@
         }
     </script>
 </head>
+
 <body class="bg-cream">
     <div class="flex">
         @include('layouts.navUser')
@@ -86,10 +103,12 @@
             <div class="bg-white rounded-2xl p-4 md:p-8 mb-8 card-shadow hover-scale">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">La fonction racine n-ième (Cours)</h1>
+                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">{{ $partieCour->titre }}
+                        </h1>
                         <p class="text-gray-600">Chapitre 02 - Partie 1/5</p>
                     </div>
-                    <button class="bg-orange-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-orange-light transition-all">
+                    <button
+                        class="bg-orange-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-orange-light transition-all">
                         <i class="fas fa-crown mr-2"></i>Premium Active
                     </button>
                 </div>
@@ -98,10 +117,9 @@
             <!-- Video Section -->
             <div class="bg-white rounded-2xl overflow-hidden mb-8 card-shadow hover-scale">
                 <div class="aspect-w-16 aspect-h-9">
-                    <iframe class="w-full h-[400px]" src="https://www.youtube.com/embed/votre_video_id" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
+                    <iframe class="w-full h-[400px]" src="{{ $partieCour->url_video }}" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
                     </iframe>
                 </div>
             </div>
@@ -121,14 +139,7 @@
                             </div>
                         </div>
                         <div class="rounded-xl p-4" style="background-color: rgba(246, 209, 205, var(--tw-bg-opacity))">
-                            <p class="mb-2">Soit n ∈ ℕ,</p>
-                            <p class="mb-2">La fonction x ↦ xⁿ est continue et strictement croissante sur ℝ⁺.</p>
-                            <p class="mb-2">Elle admet donc une fonction réciproque que l'on nomme « racine n-ième », et on a :</p>
-                            <ul class="list-disc list-inside space-y-2 pl-4">
-                                <li>Pour tout x ∈ ℝ⁺: xⁿ = y ⇔ ⁿ√y = x.</li>
-                                <li>f⁻¹: x ↦ ⁿ√x est continue et strictement croissante sur ℝ⁺.</li>
-                                <li>ⁿ√x = x et ⁿ√x = √x.</li>
-                            </ul>
+                            {!! $partieCour->contenu_definition !!}
                         </div>
                     </div>
 
@@ -143,14 +154,7 @@
                             </div>
                         </div>
                         <div class="rounded-xl p-4" style="background-color: rgba(255, 232, 174, var(--tw-bg-opacity))">
-                            <p class="mb-2">Soient x ∈ ℝ⁺, y ∈ ℝ⁺, n ∈ ℕ* et m ∈ ℕ* on a :</p>
-                            <ul class="list-disc list-inside space-y-2 pl-4">
-                                <li>ⁿ√x = x</li>
-                                <li>ⁿ√xⁿ = x</li>
-                                <li>ⁿ√xy = ⁿ√x × ⁿ√y</li>
-                                <li>ⁿ√(x/y) = ⁿ√x/ⁿ√y</li>
-                                <li>ⁿ√x^m = x^(m/n)</li>
-                            </ul>
+                            {!! $partieCour->contenu_propriete !!}
                         </div>
                     </div>
 
@@ -165,12 +169,7 @@
                             </div>
                         </div>
                         <div class="rounded-xl p-4" style="background-color: rgba(229, 231, 235, var(--tw-bg-opacity))">
-                            <ul class="list-disc list-inside space-y-2 pl-4">
-                                <li>³√27 = 3</li>
-                                <li>⁷√7⁷ = 7</li>
-                                <li>⁴√7² = 7^(2/4) = 7^(1/2) = √7</li>
-                                <li>²√(7 × π) = √7 × √π</li>
-                            </ul>
+                            {!! $partieCour->contenu_exemple !!}
                         </div>
                     </div>
                 </div>
@@ -180,5 +179,16 @@
             </div>
         </div>
     </div>
+
+    <!-- Script pour processus les formules mathématiques après chargement -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Rafraîchir MathJax pour qu'il traite les formules
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typeset();
+            }
+        });
+    </script>
 </body>
+
 </html>

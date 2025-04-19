@@ -7,14 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionsQuiz extends Model
 {
     protected $fillable=[
-        'quiz_cours_id',
-        'enonce',
-        'propostions',
+        'quiz_id',
+        'question',
+        'propositions',
         'indice_vrai',
-        'point'
     ];
 
-    public function contenuCour(){
-        return $this->belongsTo(ContenusCour::class);
+    public function quiz(){
+        return $this->belongsTo(Quiz::class);
     }
 }
