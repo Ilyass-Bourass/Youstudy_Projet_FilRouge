@@ -1,3 +1,7 @@
+
+<?php 
+   // dd($partieCour);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,6 +13,22 @@
     <!-- KaTeX pour les formules mathématiques -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [
+                    ['$', '$'],
+                    ['\\(', '\\)']
+                ]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    
+    
     <style>
         :root {
             --orange-primary: #FF7D29;
@@ -100,8 +120,8 @@
             <div class="bg-white rounded-2xl p-4 md:p-8 mb-8 card-shadow hover-scale">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">La fonction racine n-ième (Exercices)</h1>
-                        <p class="text-gray-600">Chapitre 02 - Partie 1/5</p>
+                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">{{ $partieCour->titre}} (Exercices)</h1>
+                        <p class="text-gray-600">Chapitre {{ sprintf("%02d",$partieCour->order)}}</p>
                     </div>
                     <button class="bg-orange-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-orange-light transition-all">
                         <i class="fas fa-crown mr-2"></i>Premium Active
@@ -128,11 +148,7 @@
                             </div>
                         </div>
                         <div class="rounded-xl p-4 mb-4" style="background-color: rgba(219, 234, 254, var(--tw-bg-opacity))">
-                            <p class="mb-4">Soit la fonction f définie sur ℝ par :</p>
-                            <div class="flex justify-center mb-4">
-                                <img src="path_to_equation_image" alt="f(x) = (x^2-1)/(x-1)" class="max-w-full">
-                            </div>
-                            <p>Montrer que f est continue en 1.</p>
+                            {!! $partieCour->contenu_exercice !!}
                         </div>
 
                         <!-- Bouton Afficher/Masquer -->
@@ -158,7 +174,7 @@
                                 <!-- Vidéo correction -->
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <iframe class="w-full h-[300px] rounded-xl" 
-                                            src="https://www.youtube.com/embed/votre_video_id"
+                                            src="{{ $partieCour->solution_exercice_video }}"
                                             frameborder="0" 
                                             allowfullscreen>
                                     </iframe>
@@ -166,10 +182,7 @@
 
                                 <!-- Solution écrite -->
                                 <div class="space-y-4">
-                                    <p>lim f(x) = lim (x²-1)/(x-1) = lim (x+1) = 2</p>
-                                    <p>x→1 x→1 x→1</p>
-                                    <p>f(1) = 2</p>
-                                    <p class="font-bold">Donc f est continue en 1.</p>
+                                    {!! $partieCour->solution_exercice_text !!}
                                 </div>
                             </div>
                         </div>

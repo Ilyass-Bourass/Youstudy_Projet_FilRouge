@@ -1,11 +1,13 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\PartieCour;
 use App\Models\Quiz;
 use App\Models\QuestionsQuiz;
 use Illuminate\Http\Request;
+use App\Models\Cour;
 use Illuminate\Support\Facades\DB;
 
 class PartieCourController extends Controller
@@ -48,13 +50,13 @@ class PartieCourController extends Controller
             foreach ($request->questions as $index => $questionText) {
                 if (!empty($questionText)) {
                     $question = new QuestionsQuiz();
-                    $question->partie_id = $quiz->id;  // Changed from partie_id to quiz_id
+                    $question->quiz_id = $quiz->id;  // Changed from partie_id to quiz_id
                     $question->question = $questionText;
                     
                     // Récupérer les propositions pour cette question
                     $propositions = $request->input("propositions.$index", []);
                     
-                    // Stocker les propositions en JSON
+                    
                     $question->propositions = json_encode($propositions);
                     
                     // Réponse correcte
@@ -79,13 +81,28 @@ class PartieCourController extends Controller
         //
     }
 
+    public function showPartiesCour(){
+        $userNiveau = auth()->user()->niveau;
+        $cours = Cour::where('niveau', $userNiveau)->get();
+        //dd($cours);
+        foreach ($cours as $cour) {
+            $cour->parties = PartieCour::where('cour_id', $cour->id)
+                                      ->orderBy('order', 'asc')
+                                      ->get();
+        }
+        //dd($cours);
+        
+        return view('user.partie_cour', compact('userNiveau', 'cours'));
+    }
+
     /**
      * Display the specified resource.
      */
-    public function show(PartieCour $partieCour)
+    public function show($id)
     {
-        $partieCour = PartieCour::find(4);
-        return view('user.ContenusCour.contenucour',compact('partieCour'));
+        $id_partie=$id;
+        $partieCour = PartieCour::find($id);
+        return view('user.ContenusCour.contenucour',compact('partieCour','id_partie'));
     }
 
     /**
@@ -110,5 +127,19 @@ class PartieCourController extends Controller
     public function destroy(PartieCour $partieCour)
     {
         //
+    }
+
+    public function ChangerNiveau(Request $request)
+    {
+        $user = auth()->user();
+        $user->niveau = $request->niveau; 
+        $user->save(); // Save the changes to the database
+        return redirect()->back()->with('success', 'Niveau changé avec succès vers : '.$request->niveau);  
+    }
+
+    public function showExercice($id)
+    {
+        $partieCour = PartieCour::find($id);
+        return view('user.ContenusCour.exercicesPartie', compact('partieCour'));
     }
 }

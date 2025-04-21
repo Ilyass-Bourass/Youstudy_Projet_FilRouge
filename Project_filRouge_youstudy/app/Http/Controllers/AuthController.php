@@ -122,7 +122,7 @@ class AuthController extends Controller
             // Vérification du rôle de l'utilisateur
             if (Auth::user()->role === 'admin') {
                 return redirect()->route('dashboardAdmin');
-            } elseif (Auth::user()->role === 'user') {
+            } elseif (Auth::user()->role === 'user' || Auth::user()->role === 'user_premium') {
                 return redirect()->route('dashboardUser');
             }
         }

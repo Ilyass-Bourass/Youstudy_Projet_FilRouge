@@ -1,3 +1,9 @@
+<?php
+ //dd($questionsQuiz);
+ //dd($partieCour);
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -86,8 +92,8 @@
             <div class="bg-white rounded-2xl p-4 md:p-8 mb-8 card-shadow hover-scale">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">La fonction racine n-ième (Mini Quiz)</h1>
-                        <p class="text-gray-600">Chapitre 02 - Partie 1/5</p>
+                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">{{ $partieCour->titre}} (Mini Quiz)</h1>
+                        <p class="text-gray-600">Chapitre {{ sprintf("%02d",$partieCour->order)}}</p>
                     </div>
                     <button class="bg-orange-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-orange-light transition-all">
                         <i class="fas fa-crown mr-2"></i>Premium Active
@@ -103,56 +109,49 @@
                 
                 <div class="lg:col-span-2">
                     <div class="bg-white rounded-2xl p-6 card-shadow mb-6">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Mini Quiz - La fonction racine n-ième</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Mini Quiz - </h2>
                         
-                        <div class="space-y-8">
-                            <!-- Question 1 -->
-                            <div class="p-4 bg-yellow-light bg-opacity-30 rounded-xl">
-                                <h3 class="font-semibold text-gray-800 mb-4">1. Quelle est la racine carrée de 16 ?</h3>
-                                <div class="space-y-3">
-                                    <label class="flex items-center p-3 bg-white rounded-lg hover:bg-orange-light hover:text-white transition-all cursor-pointer">
-                                        <input type="radio" name="q1" class="mr-3">
-                                        <span>2</span>
-                                    </label>
-                                    <label class="flex items-center p-3 bg-white rounded-lg hover:bg-orange-light hover:text-white transition-all cursor-pointer">
-                                        <input type="radio" name="q1" class="mr-3">
-                                        <span>4</span>
-                                    </label>
-                                    <label class="flex items-center p-3 bg-white rounded-lg hover:bg-orange-light hover:text-white transition-all cursor-pointer">
-                                        <input type="radio" name="q1" class="mr-3">
-                                        <span>8</span>
-                                    </label>
-                                </div>
-                            </div>
+                        <!-- Mini Quiz Form -->
+                        <form action="{{ route('traitementQuiz')}}" method="POST" class="space-y-8">
+                            @csrf
 
-                            <!-- Question 2 -->
-                            <div class="p-4 bg-yellow-light bg-opacity-30 rounded-xl">
-                                <h3 class="font-semibold text-gray-800 mb-4">2. La racine cubique de 27 est :</h3>
-                                <div class="space-y-3">
-                                    <label class="flex items-center p-3 bg-white rounded-lg hover:bg-orange-light hover:text-white transition-all cursor-pointer">
-                                        <input type="radio" name="q2" class="mr-3">
-                                        <span>9</span>
-                                    </label>
-                                    <label class="flex items-center p-3 bg-white rounded-lg hover:bg-orange-light hover:text-white transition-all cursor-pointer">
-                                        <input type="radio" name="q2" class="mr-3">
-                                        <span>3</span>
-                                    </label>
-                                    <label class="flex items-center p-3 bg-white rounded-lg hover:bg-orange-light hover:text-white transition-all cursor-pointer">
-                                        <input type="radio" name="q2" class="mr-3">
-                                        <span>6</span>
-                                    </label>
+                            @foreach ($questionsQuiz as  $index => $question)
+                                <div class="p-4 bg-yellow-light bg-opacity-30 rounded-xl shadow-sm">
+                                    <h3 class="font-semibold text-gray-800 mb-4">
+                                        <span class="text-red-500 font-size-16">Question {{ sprintf("%02d",($index+1)) }} :</span> 
+                                        {{ $question->question }}
+                                    </h3>
+
+                                    <!-- Hidden inputs -->
+                                    <input type="hidden" name="correct_answers[{{ $question->id }}]" value="{{ $question->correct_answer }}">
+                                    <input type="hidden" name="quiz_id" value="{{ $question->quiz_id }}">
+
+                                    <div class="space-y-3">
+                                        @foreach ($question->propositions as $key => $proposition)
+                                            <label class="flex items-center p-3 bg-white rounded-lg hover:bg-orange-light hover:text-white transition-all cursor-pointer">
+                                                <input type="radio" 
+                                                    name="question[{{ $question->id }}]" 
+                                                    value="{{ $key }}" 
+                                                    class="mr-3">
+                                                <span>{{ $proposition }}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
 
                             <!-- Submit Button -->
                             <div class="flex justify-end">
-                                <button class="bg-orange-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
+                                <button type="submit" class="bg-orange-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
                                     Valider mes réponses
                                 </button>
                             </div>
-                        </div>
+                        </form>
+
                     </div>
                 </div>
+
+                
                 <!-- Right Sidebar -->
                @include('layouts.right_sidbarContenuCour')
             </div>

@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('questions_quizzes', function (Blueprint $table) {
-            $table->foreignId('partie_id')->constrained('partie_cours')->onDelete('cascade');
+            $table->id();
+            $table->foreignId('quiz_id')->constrained('quizzes')->onDelete('cascade');
             $table->text('question');
             $table->json('propositions');
             $table->integer('correct_answer'); // indice 1, 2 ou 3

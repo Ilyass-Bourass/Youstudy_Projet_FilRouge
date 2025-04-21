@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourController;
 use App\Http\Controllers\PartieCourController;
+use App\Http\Controllers\QuizController;
+use App\Models\PartieCour;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,6 +27,7 @@ Route::post('/verification/verify', [AuthController::class, 'verify'])->name('ve
 
 Route::get('/complete-registration', [AuthController::class, 'showCompleteRegistration'])->name('complete.registration');
 Route::post('/complete-registration', [AuthController::class, 'completeRegistration']);
+Route::post('/traitementQuiz', [QuizController::class, 'traitementQuiz'])->name('traitementQuiz');
 
 
 
@@ -65,23 +68,17 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         return view('user.myCourses');
     })->name('myCourses');
     
-    Route::get('/partie_cour',function(){
-        return view('user.partie_cour');
-    })->name('partie_cour');
-    
-    // Route::get('/ContenuCour',function(){
-    //     return view('user.ContenusCour.contenuCour');
-    // })->name('ContenuCour');
+    Route::get('/partie_cour',[PartieCourController::class,'showPartiesCour'])->name('partie_cour');
 
-    Route::get('/ContenuCour',[PartieCourController::class,'show'])->name('ContenuCour');
+    Route::get('/ChangerNiveau',[PartieCourController::class,'ChangerNiveau'])->name('ChangerNiveau');
     
-    Route::get('/quizPartie',function(){
-        return view('user.ContenusCour.quizPartie');
-    })->name('quizPartie');
+    Route::get('/ContenuCour/{id}',[PartieCourController::class,'show'])->name('ContenuCour');
     
-    Route::get('/exercicesPartie',function(){
-        return view('user.ContenusCour.exercicesPartie');
-    })->name('exercicesPartie');
+
+    Route::get('/quizPartie/{id}',[QuizController::class, 'show'])->name('quizPartie');
+    
+    Route::get('/exercicesPartie/{id}',[PartieCourController::class,'showExercice'])->name('exercicesPartie');
+    
 
     Route::post('/updateCour/{id}',[CourController::class,'update'])->name('update_cour');
 

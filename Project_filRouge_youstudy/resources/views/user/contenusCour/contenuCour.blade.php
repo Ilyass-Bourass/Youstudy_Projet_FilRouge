@@ -24,6 +24,7 @@
             }
         };
     </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <style>
         :root {
@@ -105,7 +106,7 @@
                     <div>
                         <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">{{ $partieCour->titre }}
                         </h1>
-                        <p class="text-gray-600">Chapitre 02 - Partie 1/5</p>
+                        <p class="text-gray-600">Chapitre {{ sprintf("%02d",$partieCour->order)}}</p>
                     </div>
                     <button
                         class="bg-orange-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-orange-light transition-all">
@@ -175,7 +176,9 @@
                 </div>
 
                 <!-- Right Sidebar -->
+                {{-- <?php dd($id_partie) ?> --}}
                 @include('layouts.right_sidbarContenuCour')
+                
             </div>
         </div>
     </div>
