@@ -76,7 +76,7 @@
             <div class="bg-white rounded-2xl p-4 md:p-8 mb-8 card-shadow hover-scale">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">Welcome back, Sarah! 👋</h1>
+                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">Welcome back, {{ Auth::user()->name }}! 👋</h1>
                         <p class="text-gray-600">Your learning journey continues here</p>
                     </div>
                     <button class="bg-orange-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">

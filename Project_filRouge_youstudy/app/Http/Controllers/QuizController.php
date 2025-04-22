@@ -87,18 +87,22 @@ class QuizController extends Controller
 
     public function traitementQuiz(Request $request)
     {
-        dd($request->all());
-        // $quizId = $request->input('quiz_id');
-        // $questions = QuestionsQuiz::where('quiz_id', $quizId)->get();
-        // $score = 0;
+        $score = 0;
 
-        // foreach ($questions as $question) {
-        //     $userAnswer = $request->input('question_' . $question->id);
-        //     if ($userAnswer == $question->correct_answer) {
-        //         $score++;
-        //     }
-        // }
-
-        // return redirect()->back()->with('success', 'Your score is: ' . $score);
+        $correctAnswers = $request->input('correct_answers'); // tableau des bonnes réponses
+        $userAnswers = $request->input('question'); // tableau des réponses de l'utilisateur
+        
+      //  dd($correctAnswers);
+       // dd($userAnswers);
+        // On boucle sur les réponses
+        foreach ($correctAnswers as $questionId => $correctAnswer) {
+            // Vérifie si la question existe aussi dans les réponses de l'utilisateur
+            if (isset($userAnswers[$questionId])) {
+                if ($userAnswers[$questionId] == $correctAnswer) {
+                    $score++;
+                }
+            }
+        }
+        return redirect()->back()->with('success', 'Your score is: ' . $score);
     }
 }

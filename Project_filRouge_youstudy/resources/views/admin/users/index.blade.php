@@ -55,11 +55,6 @@
                         </h1>
                         <p class="text-gray-600">Gérez les utilisateurs de la plateforme</p>
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <button class="px-4 py-2 bg-primary text-white rounded-xl hover:bg-opacity-90 transition-all">
-                            <i class="fas fa-plus mr-2"></i>Ajouter un utilisateur
-                        </button>
-                    </div>
                 </div>
             </div>
 
@@ -80,15 +75,16 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-primary divide-opacity-20">
+                                @foreach ($users as $user)
                                 <tr class="hover:bg-white hover:bg-opacity-50 transition-colors">
                                     <td class="py-4">
                                         <div class="flex items-center space-x-3">
-                                            <img src="https://ui-avatars.com/api/?name=John+Doe" class="w-10 h-10 rounded-xl">
-                                            <span class="font-medium">John Doe</span>
+                                            <img src="https://ui-avatars.com/api/?name={{ $user->name }}" class="w-10 h-10 rounded-xl">
+                                            <span class="font-medium">{{ $user->name }}</span>
                                         </div>
                                     </td>
-                                    <td class="py-4">john@example.com</td>
-                                    <td class="py-4">22 Mars 2024</td>
+                                    <td class="py-4">{{ $user->email }}</td>
+                                    <td class="py-4">{{ $user->created_at }}</td>
                                     <td class="py-4">
                                         <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">
                                             Actif
@@ -96,10 +92,6 @@
                                     </td>
                                     <td class="py-4">
                                         <div class="flex space-x-2">
-                                            <button class="p-2 text-primary hover:bg-primary hover:bg-opacity-10 rounded-lg transition-colors"
-                                                    title="Modifier">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
                                             <button class="p-2 text-secondary hover:bg-secondary hover:bg-opacity-10 rounded-lg transition-colors"
                                                     title="Activer Premium">
                                                 <i class="fas fa-crown"></i>
@@ -111,6 +103,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
                                 <!-- Add more rows as needed -->
                             </tbody>
                         </table>
@@ -132,18 +125,19 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-secondary divide-opacity-20">
+                                @foreach ($usersPremium as $user)
                                 <tr class="hover:bg-white hover:bg-opacity-50 transition-colors">
                                     <td class="py-4">
                                         <div class="flex items-center space-x-3">
                                             <div class="relative">
-                                                <img src="https://ui-avatars.com/api/?name=Jane+Smith" class="w-10 h-10 rounded-xl">
+                                                <img src="https://ui-avatars.com/api/?name={{$user->name}}" class="w-10 h-10 rounded-xl">
                                                 <i class="fas fa-crown text-secondary absolute -top-1 -right-1 text-sm"></i>
                                             </div>
-                                            <span class="font-medium">Jane Smith</span>
+                                            <span class="font-medium">{{$user->name}}</span>
                                         </div>
                                     </td>
-                                    <td class="py-4">jane@example.com</td>
-                                    <td class="py-4">15 Mars 2024</td>
+                                    <td class="py-4">{{$user->email}}</td>
+                                    <td class="py-4">{{$user->created_at}}</td>
                                     <td class="py-4">
                                         <span class="px-3 py-1 bg-secondary bg-opacity-10 text-secondary rounded-full text-sm">
                                             Premium
@@ -151,10 +145,6 @@
                                     </td>
                                     <td class="py-4">
                                         <div class="flex space-x-2">
-                                            <button class="p-2 text-primary hover:bg-primary hover:bg-opacity-10 rounded-lg transition-colors" 
-                                                    title="Modifier">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
                                             <button class="p-2 text-secondary hover:bg-secondary hover:bg-opacity-10 rounded-lg transition-colors"
                                                     title="Désactiver Premium">
                                                 <i class="fas fa-minus-circle"></i>
@@ -166,6 +156,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
                                 <!-- Add more rows as needed -->
                             </tbody>
                         </table>

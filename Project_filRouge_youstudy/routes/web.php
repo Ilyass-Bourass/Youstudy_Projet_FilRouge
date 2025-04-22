@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourController;
 use App\Http\Controllers\PartieCourController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\UserController;
 use App\Models\PartieCour;
 use Illuminate\Support\Facades\Route;
 
@@ -39,9 +40,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         return view('admin.dashboard.index');
     })->name('dashboardAdmin');
 
-    Route::get('/users',function(){
-        return view('admin.users.index');
-    })->name('users');
+    Route::get('users',[UserController::class,'index'])->name('users');
+
+    // Route::get('/users',function(){
+    //     return view('admin.users.index');
+    // })->name('users');
     
     Route::get('/chapitres',function(){
         return view('admin.chapitres.index');
@@ -49,11 +52,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     
     Route::get('/cours',[CourController::class,'index'])->name('cours');
     
+    // Crud des cours dans le dashboard admin
     Route::post('Create_cour',[CourController::class,'create'])->name('Create_cour');
     Route::post('/deleteCour/{id}',[CourController::class,'destroy'])->name('delete_cour');
     Route::get('/editCour/{id}',[CourController::class,'edit'])->name('edit_cour');
     Route::put('/updateCour/{id}', [CourController::class, 'update'])->name('update_cour');
 
+    // Ajout d' une nouvelle partie de cour
     Route::post('/addChapitre',[PartieCourController::class,'create'])->name('addChapitre');
 
 });
@@ -72,11 +77,10 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
     Route::get('/ChangerNiveau',[PartieCourController::class,'ChangerNiveau'])->name('ChangerNiveau');
     
-    Route::get('/ContenuCour/{id}',[PartieCourController::class,'show'])->name('ContenuCour');
-    
 
+    // affichaege de contenu du cour
+    Route::get('/ContenuCour/{id}',[PartieCourController::class,'show'])->name('ContenuCour');
     Route::get('/quizPartie/{id}',[QuizController::class, 'show'])->name('quizPartie');
-    
     Route::get('/exercicesPartie/{id}',[PartieCourController::class,'showExercice'])->name('exercicesPartie');
     
 
