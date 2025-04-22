@@ -58,6 +58,19 @@
                 </div>
             </div>
 
+            <!-- Messages flash -->
+            @if(session('success'))
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <!-- Users Sections -->
             <div class="space-y-8">
                 <!-- Regular Users Section -->
@@ -92,14 +105,23 @@
                                     </td>
                                     <td class="py-4">
                                         <div class="flex space-x-2">
-                                            <button class="p-2 text-secondary hover:bg-secondary hover:bg-opacity-10 rounded-lg transition-colors"
-                                                    title="Activer Premium">
-                                                <i class="fas fa-crown"></i>
-                                            </button>
-                                            <button class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
-                                                    title="Supprimer">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            <form action="{{ route('activerPremium', $user->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button class="p-2 text-secondary hover:bg-secondary hover:bg-opacity-10 rounded-lg transition-colors"
+                                                        title="Activer Premium">
+                                                    <i class="fas fa-crown"></i>
+                                                </button>
+                                            </form>
+                                            
+                                            <!-- Formulaire pour Supprimer -->
+                                            <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE') <!-- si la route utilise DELETE -->
+                                                <button class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
+                                                        title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
@@ -145,14 +167,24 @@
                                     </td>
                                     <td class="py-4">
                                         <div class="flex space-x-2">
-                                            <button class="p-2 text-secondary hover:bg-secondary hover:bg-opacity-10 rounded-lg transition-colors"
+                                        
+                                            <form action="{{ route('desactiverPremium', $user->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button class="p-2 text-secondary hover:bg-secondary hover:bg-opacity-10 rounded-lg transition-colors"
                                                     title="Désactiver Premium">
-                                                <i class="fas fa-minus-circle"></i>
-                                            </button>
-                                            <button class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
-                                                    title="Supprimer">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                                    <i class="fas fa-minus-circle"></i>
+                                                </button>
+                                            </form>
+                                            
+                                            <!-- Formulaire pour Supprimer -->
+                                            <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
+                                                        title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

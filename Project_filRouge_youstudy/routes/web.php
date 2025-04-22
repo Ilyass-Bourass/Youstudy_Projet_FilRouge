@@ -61,6 +61,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Ajout d' une nouvelle partie de cour
     Route::post('/addChapitre',[PartieCourController::class,'create'])->name('addChapitre');
 
+    // Gestions des users
+
+    Route::delete('/deleteUser/{id}',[UserController::class,'destroy'])->name('deleteUser');
+    Route::post('/activerPremium/{id}',[UserController::class,'activerPremium'])->name('activerPremium');
+    Route::post('/desactiverPremium/{id}',[UserController::class,'desactiverPremium'])->name('desactiverPremium');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
