@@ -6,6 +6,7 @@ use App\Http\Controllers\PartieCourController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 use App\Models\PartieCour;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,10 +37,9 @@ Route::post('/traitementQuiz', [QuizController::class, 'traitementQuiz'])->name(
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/dashboardAdmin',function(){
-        return view('admin.dashboard.index');
-    })->name('dashboardAdmin');
+    
 
+    Route::get('/dashboardAdmin',[UserController::class,'dashboardAdmin'])->name('dashboardAdmin');
     Route::get('users',[UserController::class,'index'])->name('users');
 
     // Route::get('/users',function(){
@@ -51,7 +51,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     })->name('chapitres');
     
     Route::get('/cours',[CourController::class,'index'])->name('cours');
-    
     // Crud des cours dans le dashboard admin
     Route::post('Create_cour',[CourController::class,'create'])->name('Create_cour');
     Route::post('/deleteCour/{id}',[CourController::class,'destroy'])->name('delete_cour');

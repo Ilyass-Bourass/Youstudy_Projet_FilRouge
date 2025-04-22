@@ -74,7 +74,7 @@
                             <i class="fas fa-users text-primary text-xl"></i>
                         </div>
                     </div>
-                    <p class="text-3xl font-bold text-secondary">1,234</p>
+                    <p class="text-3xl font-bold text-secondary">{{$statistiques['total_users']}}</p>
                     <div class="mt-2 flex items-center text-sm text-green-500">
                         <i class="fas fa-arrow-up mr-1"></i>
                         <span>12% ce mois</span>
@@ -89,7 +89,7 @@
                             <i class="fas fa-crown text-secondary text-xl"></i>
                         </div>
                     </div>
-                    <p class="text-3xl font-bold text-secondary">256</p>
+                    <p class="text-3xl font-bold text-secondary">{{$statistiques['total_users_premium']}}</p>
                     <div class="mt-2 flex items-center text-sm text-primary">
                         <span>20% des utilisateurs</span>
                     </div>
@@ -103,7 +103,7 @@
                             <i class="fas fa-book text-primary text-xl"></i>
                         </div>
                     </div>
-                    <p class="text-3xl font-bold text-secondary">15</p>
+                    <p class="text-3xl font-bold text-secondary">{{$statistiques['total_parties']}}</p>
                     <div class="mt-2 flex items-center text-sm text-blue-500">
                         <i class="fas fa-plus mr-1"></i>
                         <span>3 ce mois</span>
@@ -113,14 +113,14 @@
                 <!-- Moyenne des parties par chapitre -->
                 <div class="glass-effect p-6 rounded-2xl card-shadow hover:scale-105 transition-transform duration-300">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-gray-600 font-medium">Moyenne Parties/Chapitre</h3>
+                        <h3 class="text-gray-600 font-medium">Moyenne Cour/Chapitre</h3>
                         <div class="w-12 h-12 rounded-full bg-secondary bg-opacity-20 flex items-center justify-center">
                             <i class="fas fa-chart-bar text-secondary text-xl"></i>
                         </div>
                     </div>
-                    <p class="text-3xl font-bold text-secondary">5.2</p>
+                    <p class="text-3xl font-bold text-secondary">{{$statistiques['total_courses']/$statistiques['total_parties']}}</p>
                     <div class="mt-2 flex items-center text-sm text-gray-500">
-                        <span>Parties par chapitre</span>
+                        <span>Cour par chapitre</span>
                     </div>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-600">Nouvelles Inscriptions</p>
-                                    <p class="text-lg font-bold text-primary">+15 ce mois</p>
+                                    <p class="text-lg font-bold text-primary">+{{ $statistiques['nouveaux_users']}} ce mois</p>
                                 </div>
                             </div>
                             <div class="text-xs text-green-500">
@@ -147,31 +147,17 @@
                             </div>
                         </div>
 
-                        <!-- Utilisateurs Actifs -->
-                        <div class="flex items-center justify-between p-3 bg-white bg-opacity-50 rounded-xl">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-                                    <i class="fas fa-user-check text-blue-500"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-600">Utilisateurs Actifs</p>
-                                    <p class="text-lg font-bold text-primary">892 cette semaine</p>
-                                </div>
-                            </div>
-                            <div class="text-xs text-blue-500">
-                                72% actifs
-                            </div>
-                        </div>
+                        
 
-                        <!-- Premium Conversions -->
+                        <!-- Premium utilisateur -->
                         <div class="flex items-center justify-between p-3 bg-white bg-opacity-50 rounded-xl">
                             <div class="flex items-center space-x-3">
                                 <div class="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center">
                                     <i class="fas fa-crown text-yellow-500"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm text-gray-600">Conversions Premium</p>
-                                    <p class="text-lg font-bold text-primary">+8 ce mois</p>
+                                    <p class="text-sm text-gray-600">Utilisateur Premium</p>
+                                    <p class="text-lg font-bold text-primary">+{{ $statistiques['total_nouveau_users_premium']}} ce mois</p>
                                 </div>
                             </div>
                             <div class="text-xs text-yellow-500">
@@ -209,7 +195,7 @@
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-600">Contenu Premium</p>
-                                    <p class="text-lg font-bold text-primary">8 chapitres</p>
+                                    <p class="text-lg font-bold text-primary">{{ $statistiques['total_cours_premium']}} chapitres</p>
                                 </div>
                             </div>
                             <div class="text-xs text-secondary">
@@ -217,21 +203,6 @@
                             </div>
                         </div>
 
-                        <!-- Dernière Mise à Jour -->
-                        <div class="flex items-center justify-between p-3 bg-white bg-opacity-50 rounded-xl">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
-                                    <i class="fas fa-clock text-purple-500"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-600">Dernière Mise à Jour</p>
-                                    <p class="text-lg font-bold text-primary">Il y a 2 jours</p>
-                                </div>
-                            </div>
-                            <div class="text-xs text-purple-500">
-                                Chapitre 15
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
