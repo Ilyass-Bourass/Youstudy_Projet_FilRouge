@@ -122,7 +122,7 @@ class AuthController extends Controller
             // Vérification du rôle de l'utilisateur
             if (Auth::user()->role === 'admin') {
                 return redirect()->route('dashboardAdmin');
-            } elseif (Auth::user()->role === 'user' || Auth::user()->role === 'user_premium') {
+            } elseif (Auth::user()->role === 'user' || Auth::user()->role === 'user') {
                 return redirect()->route('dashboardUser');
             }
         }
@@ -144,6 +144,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/login');
     }
 }

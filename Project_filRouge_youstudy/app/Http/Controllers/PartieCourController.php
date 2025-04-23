@@ -17,7 +17,33 @@ class PartieCourController extends Controller
      */
     public function index()
     {
-        //
+        // Récupérer tous les chapitres avec leurs cours associés
+        
+        $parties = PartieCour::join('cours', 'partie_cours.cour_id', '=', 'cours.id')
+            ->select('partie_cours.*','cours.titre as cours_titre','cours.order_cour', 'cours.niveau', 'cours.matiere_cour')
+            ->orderBy('cours.niveau', 'asc')
+            ->orderBy('partie_cours.order', 'asc')
+            ->orderBy('cours.matiere_cour', 'asc')
+            ->get();
+            
+        $totalParties = PartieCour::count();
+       //dd($parties);
+       
+        return view('admin.chapitres.index',compact('parties','totalParties'));
+    }
+
+    public function showPartieFetch(Request $request, $id)
+    {
+        $partieCour = PartieCour::join('cours', 'partie_cours.cour_id', '=', 'cours.id')
+            ->select('partie_cours.*', 'cours.titre as cours_titre', 'cours.order_cour', 'cours.niveau', 'cours.matiere_cour')
+            ->where('partie_cours.id', $id)
+            ->first();
+
+        if (!$partieCour) {
+            return response()->json(['error' => 'Partie not found'], 404);
+        }
+        
+        return response()->json($partieCour);
     }
 
     /**
@@ -26,6 +52,18 @@ class PartieCourController extends Controller
     public function create(Request $request)
     {
         // Création de la partie du cours (chapitre)
+        validator($request->all(), [
+            'titre' => 'required|string|max:255',
+            'order' => 'required|integer',
+            'contenu_definition' => 'required|string',
+            'contenu_propriete' => 'required|string',
+            'contenu_exemple' => 'required|string',
+            'url_video' => 'nullable|url',
+            'contenu_exercice' => 'nullable|string',
+            'solution_exercice_video' => 'nullable|url',
+            'solution_exercice_text' => 'nullable|string',
+            'difficulte_exercice' => 'nullable|string|max:255',
+        ])->validate();
         $partieCour = new PartieCour();
         $partieCour->titre = $request->titre;
         $partieCour->order = $request->order;
@@ -116,26 +154,62 @@ class PartieCourController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PartieCour $partieCour)
+    public function update(Request $request)
     {
-        //
+      
+        // dd($request->all());
+        
+        validator($request->all(), [
+            'titre' => 'required|string|max:255',
+            'order' => 'required|integer',
+            'contenu_definition' => 'required|string',
+            'contenu_propriete' => 'required|string',
+            'contenu_exemple' => 'required|string',
+            'url_video' => 'nullable|url',
+            'contenu_exercice' => 'nullable|string',
+            'solution_exercice_video' => 'nullable|url',
+            'solution_exercice_text' => 'nullable|string',
+            'difficulte_exercice' => 'nullable|string|max:255',
+        ])->validate();
+
+        // Utiliser partie_id au lieu de id pour correspondre au formulaire
+        $partieCour = PartieCour::find($request->partie_id);
+        
+        if(!$partieCour) {
+            return redirect()->back()->with('error', 'Partie de cours non trouvée!');
+        }
+        
+        $partieCour->titre = $request->titre;
+        $partieCour->order = $request->order;
+        $partieCour->contenu_definition = $request->contenu_definition;
+        $partieCour->contenu_propriete = $request->contenu_propriete;
+        $partieCour->contenu_exemple = $request->contenu_exemple;
+        $partieCour->url_video = $request->url_video;
+        $partieCour->contenu_exercice = $request->contenu_exercice;
+        $partieCour->solution_exercice_video = $request->solution_exercice_video;
+        $partieCour->solution_exercice_text = $request->solution_exercice_text;
+        $partieCour->difficulte_exercice = $request->difficulte_exercice;
+       
+        $partieCour->save();
+
+        return redirect()->back()->with('success', 'Chapitre modifié avec succès!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PartieCour $partieCour)
+    public function destroy($id)
     {
-        //
+        $partieCour = PartieCour::find($id);
+        if ($partieCour) {
+            $partieCour->delete();
+            return redirect()->back()->with('success', 'Chapitre supprimé avec succès!');
+        } else {
+            return redirect()->back()->with('error', 'Chapitre non trouvé!');
+        }
     }
 
-    public function ChangerNiveau(Request $request)
-    {
-        $user = auth()->user();
-        $user->niveau = $request->niveau; 
-        $user->save(); // Save the changes to the database
-        return redirect()->back()->with('success', 'Niveau changé avec succès vers : '.$request->niveau);  
-    }
+   
 
     public function showExercice($id)
     {

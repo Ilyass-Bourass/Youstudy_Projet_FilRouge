@@ -1,9 +1,9 @@
-
-<?php 
-   // dd($partieCour);
+<?php
+// dd($partieCour);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,8 @@
     <!-- KaTeX pour les formules mathématiques -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    
+
+    <!-- MathJax configuration - mise à jour de la configuration -->
     <script>
         MathJax = {
             tex: {
@@ -27,8 +28,10 @@
             }
         };
     </script>
-    
-    
+
+    <!-- Ajout du script MathJax -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
     <style>
         :root {
             --orange-primary: #FF7D29;
@@ -43,11 +46,11 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .hover-scale {
             transition: all 0.3s ease;
         }
-        
+
         .hover-scale:hover {
             transform: scale(1.02);
         }
@@ -92,7 +95,7 @@
         function toggleCorrection(exerciseId) {
             const correction = document.getElementById(`correction-${exerciseId}`);
             const button = document.getElementById(`button-${exerciseId}`);
-            
+
             if (correction.classList.contains('hidden')) {
                 correction.classList.remove('hidden');
                 button.innerHTML = '<i class="fas fa-eye-slash mr-2"></i>Masquer la correction';
@@ -103,6 +106,7 @@
         }
     </script>
 </head>
+
 <body class="bg-cream">
     <div class="flex">
         @include('layouts.navUser')
@@ -120,17 +124,19 @@
             <div class="bg-white rounded-2xl p-4 md:p-8 mb-8 card-shadow hover-scale">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">{{ $partieCour->titre}} (Exercices)</h1>
-                        <p class="text-gray-600">Chapitre {{ sprintf("%02d",$partieCour->order)}}</p>
+                        <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">{{ $partieCour->titre }}
+                            (Exercices)</h1>
+                        <p class="text-gray-600">Chapitre {{ sprintf('%02d', $partieCour->order) }}</p>
                     </div>
-                    <button class="bg-orange-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-orange-light transition-all">
+                    <button
+                        class="bg-orange-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-orange-light transition-all">
                         <i class="fas fa-crown mr-2"></i>Premium Active
                     </button>
                 </div>
             </div>
 
             <!-- Video Section -->
-            
+
 
             <!-- Content Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -147,14 +153,13 @@
                                 <h2 class="text-xl font-bold text-gray-800">Exercice d'application 1</h2>
                             </div>
                         </div>
-                        <div class="rounded-xl p-4 mb-4" style="background-color: rgba(219, 234, 254, var(--tw-bg-opacity))">
+                        <div class="rounded-xl p-4 mb-4"
+                            style="background-color: rgba(219, 234, 254, var(--tw-bg-opacity))">
                             {!! $partieCour->contenu_exercice !!}
                         </div>
 
                         <!-- Bouton Afficher/Masquer -->
-                        <button 
-                            id="button-1"
-                            onclick="toggleCorrection(1)"
+                        <button id="button-1" onclick="toggleCorrection(1)"
                             class="w-full bg-orange-primary text-white px-4 py-2 rounded-xl hover:bg-orange-light transition-all">
                             <i class="fas fa-eye mr-2"></i>Afficher la correction
                         </button>
@@ -169,14 +174,14 @@
                                     <h2 class="text-xl font-bold text-gray-800">Correction</h2>
                                 </div>
                             </div>
-                            <div class="rounded-xl p-4" style="background-color: rgba(246, 209, 205, var(--tw-bg-opacity))">
-                                
+                            <div class="rounded-xl p-4"
+                                style="background-color: rgba(246, 209, 205, var(--tw-bg-opacity))">
+
                                 <!-- Vidéo correction -->
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
-                                    <iframe class="w-full h-[300px] rounded-xl" 
-                                            src="{{ $partieCour->solution_exercice_video }}"
-                                            frameborder="0" 
-                                            allowfullscreen>
+                                    <iframe class="w-full h-[300px] rounded-xl"
+                                        src="{{ $partieCour->solution_exercice_video }}" frameborder="0"
+                                        allowfullscreen>
                                     </iframe>
                                 </div>
 
@@ -194,5 +199,16 @@
             </div>
         </div>
     </div>
+
+    <!-- Ajout du script pour traiter les formules mathématiques -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Rafraîchir MathJax pour qu'il traite les formules
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typeset();
+            }
+        });
+    </script>
 </body>
+
 </html>

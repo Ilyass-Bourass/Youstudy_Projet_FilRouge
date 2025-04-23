@@ -40,15 +40,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     
 
     Route::get('/dashboardAdmin',[UserController::class,'dashboardAdmin'])->name('dashboardAdmin');
-    Route::get('users',[UserController::class,'index'])->name('users');
+    Route::get('users',[UserController::class,'index'])->name('users'); 
 
-    // Route::get('/users',function(){
-    //     return view('admin.users.index');
-    // })->name('users');
-    
-    Route::get('/chapitres',function(){
-        return view('admin.chapitres.index');
-    })->name('chapitres');
+    Route::get('/chapitres',[PartieCourController::class,'index'])->name('chapitres');
     
     Route::get('/cours',[CourController::class,'index'])->name('cours');
     // Crud des cours dans le dashboard admin
@@ -65,7 +59,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/deleteUser/{id}',[UserController::class,'destroy'])->name('deleteUser');
     Route::post('/activerPremium/{id}',[UserController::class,'activerPremium'])->name('activerPremium');
     Route::post('/desactiverPremium/{id}',[UserController::class,'desactiverPremium'])->name('desactiverPremium');
+
+    Route::get('/showPartieFetch/{id}',[PartieCourController::class,'showPartieFetch'])->name('showPartieFetch');
+    Route::put('/update-partie-cour', [PartieCourController::class, 'update'])->name('updatePartieCour');
+    Route::delete('/deletePartieCour/{id}',[PartieCourController::class,'destroy'])->name('deletePartieCour');
+
 });
+
+
 
 Route::middleware(['auth', 'role:user'])->group(function () {
 
@@ -79,15 +80,14 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     
     Route::get('/partie_cour',[PartieCourController::class,'showPartiesCour'])->name('partie_cour');
 
-    Route::get('/ChangerNiveau',[PartieCourController::class,'ChangerNiveau'])->name('ChangerNiveau');
+    Route::get('/ChangerNiveau',[UserController::class,'ChangerNiveau'])->name('ChangerNiveau');
     
 
     // affichaege de contenu du cour
     Route::get('/ContenuCour/{id}',[PartieCourController::class,'show'])->name('ContenuCour');
     Route::get('/quizPartie/{id}',[QuizController::class, 'show'])->name('quizPartie');
     Route::get('/exercicesPartie/{id}',[PartieCourController::class,'showExercice'])->name('exercicesPartie');
-    
-
+   
     Route::post('/updateCour/{id}',[CourController::class,'update'])->name('update_cour');
 
 });

@@ -31,6 +31,39 @@
             <span class="ml-3 font-medium">Dashboard</span>
         </a>
 
+        <!-- Utilisateurs -->
+        <div class="space-y-3 mt-6">
+            <a href="{{ route('users') }}" 
+               class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-primary hover:bg-opacity-20 hover:text-secondary transition-all group">
+                <div class="w-10 h-10 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center group-hover:bg-secondary group-hover:bg-opacity-10">
+                    <i class="fas fa-users text-lg text-primary group-hover:text-secondary"></i>
+                </div>
+                <span class="ml-3 font-medium">Utilisateurs</span>
+            </a>
+            
+            <!-- Demandes Premium -->
+            {{-- <a href="#" 
+               class="flex items-center px-4 py-3 ml-4 text-gray-700 rounded-xl hover:bg-primary hover:bg-opacity-20 hover:text-secondary transition-all group">
+                <div class="w-10 h-10 rounded-lg bg-secondary bg-opacity-10 flex items-center justify-center group-hover:bg-primary group-hover:bg-opacity-10">
+                    <i class="fas fa-crown text-lg text-secondary group-hover:text-primary"></i>
+                </div>
+                <span class="ml-3 font-medium">Demandes Premium</span>
+                <span class="ml-auto bg-secondary text-white px-2 py-1 text-xs rounded-full">
+                    3
+                </span>
+            </a> --}}
+        </div>
+
+
+             <!-- Cours -->
+         <a href="{{ route('cours') }}" 
+             class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-primary hover:bg-opacity-20 hover:text-secondary transition-all group">
+              <div class="w-10 h-10 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center group-hover:bg-secondary group-hover:bg-opacity-10">
+                  <i class="fas fa-video text-lg text-primary group-hover:text-secondary"></i>
+              </div>
+              <span class="ml-3 font-medium">Cours</span>
+          </a>
+
         <!-- Chapitres -->
         <a href="{{ route('chapitres') }}" 
            class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-primary hover:bg-opacity-20 hover:text-secondary transition-all group">
@@ -40,14 +73,7 @@
             <span class="ml-3 font-medium">Chapitres</span>
         </a>
 
-        <!-- Cours -->
-        <a href="{{ route('cours') }}" 
-           class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-primary hover:bg-opacity-20 hover:text-secondary transition-all group">
-            <div class="w-10 h-10 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center group-hover:bg-secondary group-hover:bg-opacity-10">
-                <i class="fas fa-video text-lg text-primary group-hover:text-secondary"></i>
-            </div>
-            <span class="ml-3 font-medium">Cours</span>
-        </a>
+   
 
         <!-- Quiz -->
         <a href="#" 
@@ -67,28 +93,7 @@
             <span class="ml-3 font-medium">Exercices</span>
         </a>
 
-        <!-- Utilisateurs -->
-        <div class="space-y-3 mt-6">
-            <a href="{{ route('users') }}" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-primary hover:bg-opacity-20 hover:text-secondary transition-all group">
-                <div class="w-10 h-10 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center group-hover:bg-secondary group-hover:bg-opacity-10">
-                    <i class="fas fa-users text-lg text-primary group-hover:text-secondary"></i>
-                </div>
-                <span class="ml-3 font-medium">Utilisateurs</span>
-            </a>
-            
-            <!-- Demandes Premium -->
-            <a href="#" 
-               class="flex items-center px-4 py-3 ml-4 text-gray-700 rounded-xl hover:bg-primary hover:bg-opacity-20 hover:text-secondary transition-all group">
-                <div class="w-10 h-10 rounded-lg bg-secondary bg-opacity-10 flex items-center justify-center group-hover:bg-primary group-hover:bg-opacity-10">
-                    <i class="fas fa-crown text-lg text-secondary group-hover:text-primary"></i>
-                </div>
-                <span class="ml-3 font-medium">Demandes Premium</span>
-                <span class="ml-auto bg-secondary text-white px-2 py-1 text-xs rounded-full">
-                    3
-                </span>
-            </a>
-        </div>
+        
     </nav>
 
     <!-- Admin Profile -->

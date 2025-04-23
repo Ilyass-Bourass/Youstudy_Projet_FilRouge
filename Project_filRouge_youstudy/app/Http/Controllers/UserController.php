@@ -18,20 +18,6 @@ class UserController extends Controller
        return view('admin.users.index',compact('users','usersPremium'));
     }
 
-    public function dashboardAdmin(){
-        $statistiques = [
-            'total_cours_premium' => PartieCour::whereNotNull('url_video')->count(),
-            'total_users' => User::where('role', 'user')->count(),
-            'nouveaux_users' => User::where('role', 'user')->where('created_at', '>=', now()->subMonth())->count(),
-            'total_nouveau_users_premium' => User::where('role', 'user_premium')->where('created_at', '>=', now()->subMonth())->count(),
-            'total_users_premium' => User::where('role', 'user_premium')->count(),
-            'total_parties' => PartieCour::count(),
-            'total_quizzes' => Quiz::count(),
-            'total_courses' => Cour::count(),
-        ];
-        
-        return view('admin.dashboard.index',compact('statistiques'));
-    }
 
     public function destroy($id){
         
@@ -54,6 +40,29 @@ class UserController extends Controller
         $user->role = 'user';
         $user->save();
         return redirect()->back()->with('success', 'Compte premium de ' . $user->name . '  désactivé avec succès');
+    }
+
+    public function ChangerNiveau(Request $request)
+    {
+        $user = auth()->user();
+        $user->niveau = $request->niveau; 
+        $user->save(); // Save the changes to the database
+        return redirect()->back()->with('success', 'Niveau changé avec succès vers : '.$request->niveau);  
+    }
+
+    public function dashboardAdmin(){
+        $statistiques = [
+            'total_cours_premium' => PartieCour::whereNotNull('url_video')->count(),
+            'total_users' => User::where('role', 'user')->count(),
+            'nouveaux_users' => User::where('role', 'user')->where('created_at', '>=', now()->subMonth())->count(),
+            'total_nouveau_users_premium' => User::where('role', 'user_premium')->where('created_at', '>=', now()->subMonth())->count(),
+            'total_users_premium' => User::where('role', 'user_premium')->count(),
+            'total_parties' => PartieCour::count(),
+            'total_quizzes' => Quiz::count(),
+            'total_courses' => Cour::count(),
+        ];
+        
+        return view('admin.dashboard.index',compact('statistiques'));
     }
 
 }

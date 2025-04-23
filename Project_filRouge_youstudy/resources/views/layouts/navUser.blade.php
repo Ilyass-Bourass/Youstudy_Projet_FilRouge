@@ -28,7 +28,7 @@
             <span class="ml-3">Dashboard</span>
         </a>
 
-        <a href="{{ route('myCourses') }}"
+        <a href="{{ route('partie_cour') }}"
             class="sidebar-link flex items-center px-4 py-3 rounded-xl @if (request()->is('myCourses')) bg-orange-primary text-white @else text-gray-700 @endif">
             <i class="fas fa-book w-5"></i>
             <span class="ml-3">My Courses</span>
