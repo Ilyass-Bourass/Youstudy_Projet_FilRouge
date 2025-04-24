@@ -128,10 +128,13 @@
                             (Exercices)</h1>
                         <p class="text-gray-600">Chapitre {{ sprintf('%02d', $partieCour->order) }}</p>
                     </div>
-                    <button
-                        class="bg-orange-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-xl hover:bg-orange-light transition-all">
+                    @if(Auth::user()->role == 'user_premium')
+                        <div class="bg-yellow-light text-orange-primary font-semibold px-4 py-2 rounded-full">Premium Member</div>
+                    @else
+                    <button class="bg-green-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
                         <i class="fas fa-crown mr-2"></i>Premium Active
                     </button>
+                    @endif
                 </div>
             </div>
 
@@ -178,12 +181,25 @@
                                 style="background-color: rgba(246, 209, 205, var(--tw-bg-opacity))">
 
                                 <!-- Vidéo correction -->
-                                <div class="aspect-w-16 aspect-h-9 mb-4">
-                                    <iframe class="w-full h-[300px] rounded-xl"
-                                        src="{{ $partieCour->solution_exercice_video }}" frameborder="0"
-                                        allowfullscreen>
-                                    </iframe>
+                                @if(Auth::user()->role == 'user_premium')
+                                    <div class="aspect-w-16 aspect-h-9 mb-4">
+                                        <iframe class="w-full h-[300px] rounded-xl"
+                                            src="{{ $partieCour->solution_exercice_video }}" frameborder="0"
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                @else
+                                <div class="relative">
+                                    <img src="{{ asset('images/premium-video-placeholder.jpg') }}" alt="Video Premium" class="w-full h-[400px] object-cover opacity-50">
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white">
+                                        <i class="fas fa-lock text-4xl mb-4"></i>
+                                        <h3 class="text-xl font-bold mb-4">Vous n'avez pas la possibilité de voir cette vidéo</h3>
+                                        <button class="bg-orange-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
+                                            <i class="fas fa-crown mr-2"></i>Premium Active
+                                        </button>
+                                    </div>
                                 </div>
+                                @endif
 
                                 <!-- Solution écrite -->
                                 <div class="space-y-4">

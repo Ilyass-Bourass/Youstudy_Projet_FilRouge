@@ -79,9 +79,14 @@
                         <h1 class="text-2xl md:text-3xl font-bold text-orange-primary mb-2">Welcome back, {{ Auth::user()->name }}! 👋</h1>
                         <p class="text-gray-600">Your learning journey continues here</p>
                     </div>
+                    @if(Auth::user()->role == 'user_premium')
+                        <div class="bg-yellow-light text-orange-primary font-semibold px-4 py-2 rounded-full">Premium Member</div>
+                    @else
                     <button class="bg-orange-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
                         <i class="fas fa-crown mr-2"></i>Premium Active
                     </button>
+                    @endif
+                    
                 </div>
             </div>
 
