@@ -1,5 +1,5 @@
 <?php
-//  dd($cours);
+ //dd($cours);
 ?>
 
 
@@ -165,7 +165,7 @@
                                         <div
                                             class="inline-flex items-center px-2.5 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-medium">
                                             <i class="fas fa-puzzle-piece mr-1.5 text-primary"></i>
-                                            3 parties
+                                            {{ $cour->partie_cour_count }} parties
                                         </div>
                                     </td>
                                     <td class="px-6 py-3">

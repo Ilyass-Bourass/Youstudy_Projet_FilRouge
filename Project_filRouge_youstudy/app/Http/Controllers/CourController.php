@@ -12,7 +12,11 @@ class CourController extends Controller
      */
     public function index()
     {
-        $cours = Cour::orderBy('order_cour', 'asc')->orderBy('niveau', 'asc')->orderBy('matiere_cour', 'asc')->get();   
+        $cours = Cour::withCount('partieCour')
+            ->orderBy('order_cour', 'asc')
+            ->orderBy('niveau', 'asc')
+            ->orderBy('matiere_cour', 'asc')
+            ->get();   
         return view('admin.cours.index', compact('cours'));
     }
 

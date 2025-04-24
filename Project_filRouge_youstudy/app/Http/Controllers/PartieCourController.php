@@ -18,7 +18,19 @@ class PartieCourController extends Controller
     public function index()
     {
         // Récupérer tous les chapitres avec leurs cours associés
-        
+        $nombre_chapitre_deuxiemeBac=PartieCour::join('cours','partie_cours.cour_id','=','cours.id')->where('niveau','=','deuxieme_bac')->count();
+        $nombre_cahpitre_premier_Bac=PartieCour::join('cours','partie_cours.cour_id','=','cours.id')->where('niveau','=','premier_bac')->count();
+        $nombre_cahpitre_tronc_commun=PartieCour::join('cours','partie_cours.cour_id','=','cours.id')->where('niveau','=','tron_commun')->count();
+
+        $statistiques=[
+            "nombre_chapitre_deuxieme_bac"=>$nombre_chapitre_deuxiemeBac,
+            "nombre_chpitre_premier_Bac"=>$nombre_cahpitre_premier_Bac,
+            "nombrechapitre_troncCommmun"=>$nombre_cahpitre_tronc_commun,
+
+        ];
+
+      // dd($statistiques);
+
         $parties = PartieCour::join('cours', 'partie_cours.cour_id', '=', 'cours.id')
             ->select('partie_cours.*','cours.titre as cours_titre','cours.order_cour', 'cours.niveau', 'cours.matiere_cour')
             ->orderBy('cours.niveau', 'asc')
@@ -29,7 +41,7 @@ class PartieCourController extends Controller
         $totalParties = PartieCour::count();
        //dd($parties);
        
-        return view('admin.chapitres.index',compact('parties','totalParties'));
+        return view('admin.chapitres.index',compact('parties','totalParties','statistiques'));
     }
 
     public function showPartieFetch(Request $request, $id)

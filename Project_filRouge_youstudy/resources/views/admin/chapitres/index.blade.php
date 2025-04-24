@@ -122,11 +122,11 @@
                             <p class="text-gray-600">Chapitres par Niveau</p>
                             <div class="flex mt-2 space-x-3">
                                 <span class="px-2 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm">TC:
-                                    {{ $statistiques['tc_count'] ?? '—' }}</span>
+                                    {{ $statistiques['nombrechapitre_troncCommmun'] ?? '—' }}</span>
                                 <span class="px-2 py-1 bg-green-100 text-green-600 rounded-lg text-sm">1BAC:
-                                    {{ $statistiques['1bac_count'] ?? '—' }}</span>
+                                    {{ $statistiques['nombre_chpitre_premier_Bac'] ?? '—' }}</span>
                                 <span class="px-2 py-1 bg-purple-100 text-purple-600 rounded-lg text-sm">2BAC:
-                                    {{ $statistiques['2bac_count'] ?? '—' }}</span>
+                                    {{ $statistiques['nombre_chapitre_deuxieme_bac'] ?? '—' }}</span>
                             </div>
                         </div>
                         <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center">
