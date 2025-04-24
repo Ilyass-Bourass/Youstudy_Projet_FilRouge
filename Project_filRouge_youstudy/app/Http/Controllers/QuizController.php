@@ -6,7 +6,7 @@ use App\Models\PartieCour;
 use App\Models\Quiz;
 use App\Models\QuestionsQuiz;
 use Illuminate\Http\Request;
-;
+
 class QuizController extends Controller
 {
     /**
@@ -14,7 +14,13 @@ class QuizController extends Controller
      */
     public function index()
     {
-        //
+        // Récupérer tous les Quiz avec les questions avec leurs parties associés
+        $quizzes = Quiz::with(['partieCour:id,titre,cour_id', 'partieCour.cour:id,niveau,matiere_cour' , 'questions'])
+            ->select('id', 'partie_cour_id')
+            ->get();
+        // dd($quizzes);
+
+        return view('admin.quiz.index',compact('quizzes'));
     }
 
     /**
@@ -38,8 +44,6 @@ class QuizController extends Controller
      */
     public function show($id)
     {
-       
- 
         $quiz = Quiz::where('partie_cour_id', $id)->first();
         
         if (!$quiz) {
@@ -49,7 +53,6 @@ class QuizController extends Controller
         $questionsQuiz = QuestionsQuiz::where('quiz_id', $id)->get();
         $partieCour = PartieCour::find($id);
         
-
         if ($questionsQuiz->isEmpty()) {
             return redirect()->back()->with('error', 'No questions found for this quiz');
         }
@@ -92,8 +95,6 @@ class QuizController extends Controller
         $correctAnswers = $request->input('correct_answers'); // tableau des bonnes réponses
         $userAnswers = $request->input('question'); // tableau des réponses de l'utilisateur
         
-      //  dd($correctAnswers);
-       // dd($userAnswers);
         // On boucle sur les réponses
         foreach ($correctAnswers as $questionId => $correctAnswer) {
             // Vérifie si la question existe aussi dans les réponses de l'utilisateur
@@ -104,5 +105,73 @@ class QuizController extends Controller
             }
         }
         return redirect()->back()->with('success', 'Your score is: ' . $score);
+    }
+
+    /**
+     * Fetch questions for a quiz via AJAX.
+     */
+   
+
+    /**
+     * Update quiz questions
+     */
+    public function updateQuizQuestions(Request $request, $id)
+    {
+        try {
+            $quiz = Quiz::findOrFail($id);
+            
+            // Récupérer les données du formulaire
+            $questionIds = $request->input('question_id', []);
+            $questionTexts = $request->input('question_text', []);
+            
+            // Parcourir chaque question
+            foreach ($questionIds as $index => $questionId) {
+                $questionText = $questionTexts[$index];
+                
+                // Pour les nouvelles questions
+                if ($questionId === 'new') {
+                    $propositionName = 'proposition_new_' . $index;
+                    $correctAnswerName = 'correct_answer_new_' . $index;
+                    
+                    // Créer une nouvelle question
+                    $propositions = $request->input($propositionName, []);
+                    $correctAnswer = $request->input($correctAnswerName, 0);
+                    
+                    // Vérifier que la question a au moins une proposition
+                    if (count($propositions) > 0) {
+                        QuestionsQuiz::create([
+                            'quiz_id' => $id,
+                            'question' => $questionText,
+                            'propositions' => json_encode($propositions),
+                            'reponse_correcte' => $correctAnswer,
+                        ]);
+                    }
+                } 
+                // Pour les questions existantes
+                else {
+                    $question = QuestionsQuiz::find($questionId);
+                    if ($question) {
+                        $propositionName = 'proposition_' . $questionId;
+                        $correctAnswerName = 'correct_answer_' . $questionId;
+                        
+                        $propositions = $request->input($propositionName, []);
+                        $correctAnswer = $request->input($correctAnswerName, 0);
+                        
+                        // Mettre à jour la question
+                        $question->question = $questionText;
+                        $question->propositions = json_encode($propositions);
+                        $question->reponse_correcte = $correctAnswer;
+                        $question->save();
+                    }
+                }
+            }
+            
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false, 
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

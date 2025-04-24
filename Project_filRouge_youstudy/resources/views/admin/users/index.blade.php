@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,6 +40,7 @@
         }
     </script>
 </head>
+
 <body class="bg-gradient-to-br from-cream to-yellow-light min-h-screen">
     <div class="flex">
         <!-- Sidebar -->
@@ -59,13 +61,13 @@
             </div>
 
             <!-- Messages flash -->
-            @if(session('success'))
+            @if (session('success'))
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6">
                     {{ session('success') }}
                 </div>
             @endif
 
-            @if(session('error'))
+            @if (session('error'))
                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
                     {{ session('error') }}
                 </div>
@@ -75,58 +77,91 @@
             <div class="space-y-8">
                 <!-- Regular Users Section -->
                 <div class="glass-effect rounded-2xl p-6">
-                    <h2 class="text-xl font-bold text-primary mb-6">Utilisateurs Standards</h2>
+                    <h2 class="text-xl font-bold text-primary mb-6 flex items-center">
+                        <i class="fas fa-users mr-2"></i> Utilisateurs Standards
+                    </h2>
+
+                    <!-- Table des utilisateurs standards - Version modernisée -->
                     <div class="overflow-x-auto">
-                        <table class="w-full">
+                        <table class="min-w-full rounded-xl overflow-hidden">
                             <thead>
-                                <tr class="text-left border-b border-primary border-opacity-20">
-                                    <th class="pb-4 text-gray-600">Utilisateur</th>
-                                    <th class="pb-4 text-gray-600">Email</th>
-                                    <th class="pb-4 text-gray-600">Date d'inscription</th>
-                                    <th class="pb-4 text-gray-600">Statut</th>
-                                    <th class="pb-4 text-gray-600">Actions</th>
+                                <tr class="bg-gradient-to-r from-primary/20 to-secondary/20 text-left">
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Utilisateur</th>
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Email</th>
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Date d'inscription</th>
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Statut</th>
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-primary divide-opacity-20">
-                                @foreach ($users as $user)
-                                <tr class="hover:bg-white hover:bg-opacity-50 transition-colors">
-                                    <td class="py-4">
-                                        <div class="flex items-center space-x-3">
-                                            <img src="https://ui-avatars.com/api/?name={{ $user->name }}" class="w-10 h-10 rounded-xl">
-                                            <span class="font-medium">{{ $user->name }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="py-4">{{ $user->email }}</td>
-                                    <td class="py-4">{{ $user->created_at }}</td>
-                                    <td class="py-4">
-                                        <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">
-                                            Actif
-                                        </span>
-                                    </td>
-                                    <td class="py-4">
-                                        <div class="flex space-x-2">
-                                            <form action="{{ route('activerPremium', $user->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button class="p-2 text-secondary hover:bg-secondary hover:bg-opacity-10 rounded-lg transition-colors"
+                            <tbody>
+                                @forelse ($users as $user)
+                                    <tr
+                                        class="border-b border-primary/10 hover:bg-gradient-to-r hover:from-yellow-50 hover:to-cream transition-all duration-200">
+                                        <td class="px-6 py-3">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md overflow-hidden">
+                                                    <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=random&color=fff"
+                                                        class="w-full h-full object-cover">
+                                                </div>
+                                                <p class="font-medium">{{ $user->name }}</p>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-3 text-gray-700">{{ $user->email }}</td>
+                                        <td class="px-6 py-3 text-gray-600 text-sm">
+                                            {{ $user->created_at->format('d/m/Y H:i') }}</td>
+                                        <td class="px-6 py-3">
+                                            <div
+                                                class="inline-flex items-center px-2.5 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                                                <div class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5 animate-pulse">
+                                                </div>
+                                                Actif
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-3">
+                                            <div class="flex items-center space-x-3">
+                                                <form action="{{ route('activerPremium', $user->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="group relative rounded-full p-2 bg-amber-50 hover:bg-amber-100 transition-colors"
                                                         title="Activer Premium">
-                                                    <i class="fas fa-crown"></i>
-                                                </button>
-                                            </form>
-                                            
-                                            <!-- Formulaire pour Supprimer -->
-                                            <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE') <!-- si la route utilise DELETE -->
-                                                <button class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
+                                                        <i class="fas fa-crown text-amber-600"></i>
+                                                        <span
+                                                            class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Activer
+                                                            Premium</span>
+                                                    </button>
+                                                </form>
+
+                                                <form action="{{ route('deleteUser', $user->id) }}" method="POST"
+                                                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="group relative rounded-full p-2 bg-red-50 hover:bg-red-100 transition-colors"
                                                         title="Supprimer">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                <!-- Add more rows as needed -->
+                                                        <i class="fas fa-trash text-red-600"></i>
+                                                        <span
+                                                            class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Supprimer</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-10 text-center">
+                                            <div class="flex flex-col items-center justify-center">
+                                                <div
+                                                    class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+                                                    <i class="fas fa-user-slash text-gray-400 text-2xl"></i>
+                                                </div>
+                                                <p class="text-gray-500 font-medium">Aucun utilisateur trouvé</p>
+                                                <p class="text-gray-400 text-sm mt-1">Les utilisateurs standards seront
+                                                    affichés ici</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -134,62 +169,97 @@
 
                 <!-- Premium Users Section -->
                 <div class="glass-effect rounded-2xl p-6">
-                    <h2 class="text-xl font-bold text-secondary mb-6">Utilisateurs Premium</h2>
+                    <h2 class="text-xl font-bold text-secondary mb-6 flex items-center">
+                        <i class="fas fa-crown mr-2"></i> Utilisateurs Premium
+                    </h2>
+
+                    <!-- Table des utilisateurs premium - Version modernisée -->
                     <div class="overflow-x-auto">
-                        <table class="w-full">
+                        <table class="min-w-full rounded-xl overflow-hidden">
                             <thead>
-                                <tr class="text-left border-b border-secondary border-opacity-20">
-                                    <th class="pb-4 text-gray-600">Utilisateur</th>
-                                    <th class="pb-4 text-gray-600">Email</th>
-                                    <th class="pb-4 text-gray-600">Date Premium</th>
-                                    <th class="pb-4 text-gray-600">Statut</th>
-                                    <th class="pb-4 text-gray-600">Actions</th>
+                                <tr class="bg-gradient-to-r from-amber-200 to-amber-300/50 text-left">
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Utilisateur</th>
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Email</th>
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Date Premium</th>
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Statut</th>
+                                    <th class="px-6 py-4 text-sm font-semibold text-gray-700">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-secondary divide-opacity-20">
-                                @foreach ($usersPremium as $user)
-                                <tr class="hover:bg-white hover:bg-opacity-50 transition-colors">
-                                    <td class="py-4">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="relative">
-                                                <img src="https://ui-avatars.com/api/?name={{$user->name}}" class="w-10 h-10 rounded-xl">
-                                                <i class="fas fa-crown text-secondary absolute -top-1 -right-1 text-sm"></i>
+                            <tbody>
+                                @forelse ($usersPremium as $user)
+                                    <tr
+                                        class="border-b border-amber-200/30 hover:bg-gradient-to-r hover:from-yellow-50 hover:to-amber-50 transition-all duration-200">
+                                        <td class="px-6 py-3">
+                                            <div class="flex items-center gap-3">
+                                                <div class="relative">
+                                                    <div
+                                                        class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-md overflow-hidden">
+                                                        <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=random&color=fff"
+                                                            class="w-full h-full object-cover">
+                                                    </div>
+                                                    <div
+                                                        class="absolute -top-1 -right-1 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full p-0.5 shadow-md">
+                                                        <i class="fas fa-crown text-white text-xs"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="font-medium">{{ $user->name }}</p>
                                             </div>
-                                            <span class="font-medium">{{$user->name}}</span>
-                                        </div>
-                                    </td>
-                                    <td class="py-4">{{$user->email}}</td>
-                                    <td class="py-4">{{$user->created_at}}</td>
-                                    <td class="py-4">
-                                        <span class="px-3 py-1 bg-secondary bg-opacity-10 text-secondary rounded-full text-sm">
-                                            Premium
-                                        </span>
-                                    </td>
-                                    <td class="py-4">
-                                        <div class="flex space-x-2">
-                                        
-                                            <form action="{{ route('desactiverPremium', $user->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button class="p-2 text-secondary hover:bg-secondary hover:bg-opacity-10 rounded-lg transition-colors"
-                                                    title="Désactiver Premium">
-                                                    <i class="fas fa-minus-circle"></i>
-                                                </button>
-                                            </form>
-                                            
-                                            <!-- Formulaire pour Supprimer -->
-                                            <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
+                                        </td>
+                                        <td class="px-6 py-3 text-gray-700">{{ $user->email }}</td>
+                                        <td class="px-6 py-3 text-gray-600 text-sm">
+                                            {{ $user->created_at->format('d/m/Y H:i') }}</td>
+                                        <td class="px-6 py-3">
+                                            <div
+                                                class="inline-flex items-center px-2.5 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">
+                                                <i class="fas fa-crown text-amber-500 mr-1.5"></i>
+                                                Premium
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-3">
+                                            <div class="flex items-center space-x-3">
+                                                <form action="{{ route('desactiverPremium', $user->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="group relative rounded-full p-2 bg-gray-50 hover:bg-gray-100 transition-colors"
+                                                        title="Désactiver Premium">
+                                                        <i class="fas fa-minus-circle text-gray-600"></i>
+                                                        <span
+                                                            class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Désactiver
+                                                            Premium</span>
+                                                    </button>
+                                                </form>
+
+                                                <form action="{{ route('deleteUser', $user->id) }}" method="POST"
+                                                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="group relative rounded-full p-2 bg-red-50 hover:bg-red-100 transition-colors"
                                                         title="Supprimer">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                <!-- Add more rows as needed -->
+                                                        <i class="fas fa-trash text-red-600"></i>
+                                                        <span
+                                                            class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Supprimer</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-10 text-center">
+                                            <div class="flex flex-col items-center justify-center">
+                                                <div
+                                                    class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+                                                    <i class="fas fa-crown text-gray-400 text-2xl"></i>
+                                                </div>
+                                                <p class="text-gray-500 font-medium">Aucun utilisateur premium</p>
+                                                <p class="text-gray-400 text-sm mt-1">Les utilisateurs premium seront
+                                                    affichés ici</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -198,4 +268,5 @@
         </div>
     </div>
 </body>
+
 </html>

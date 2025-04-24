@@ -59,10 +59,15 @@
                         <p class="text-gray-600">Gérez le contenu des chapitres et leurs cours vidéo</p>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <a href="#"
+                        <button onclick="openalertajoutPartie()" 
                             class="px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-xl hover:opacity-90 transition-all shadow-lg">
                             <i class="fas fa-plus mr-2"></i>Nouveau Chapitre
-                        </a>
+                        </button>
+                        <script>
+                            function openalertajoutPartie(){
+                                alert('Si tu veux ajouter une chapitre déplacer vers  dans la section de cour');
+                            }
+                        </script>
                     </div>
                 </div>
             </div>
@@ -158,65 +163,82 @@
                     </div>
                 </div>
 
-                <!-- Table des chapitres -->
+                <!-- Table des chapitres - Version modernisée -->
                 <div class="overflow-x-auto">
-                    <table class="w-full">
+                    <table class="min-w-full rounded-xl overflow-hidden">
                         <thead>
-                            <tr class="text-left border-b border-primary border-opacity-20">
-                                <th class="pb-4 text-gray-600">Titre_chapitre</th>
-                                <th class="pb-4 text-gray-600">Titre_Cour</th>
-                                <th class="pb-4 text-gray-600">Matière</th>
-                                <th class="pb-4 text-gray-600">Niveau</th>
-                                <th class="pb-4 text-gray-600">Actions</th>
+                            <tr class="bg-gradient-to-r from-primary/20 to-secondary/20 text-left">
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Titre chapitre</th>
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Cours</th>
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Matière</th>
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Niveau</th>
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-primary divide-opacity-20">
-                            <!-- Chapitre 1 -->
+                        <tbody>
                             @foreach ($parties as $partie)
-                                <tr class="hover:bg-white hover:bg-opacity-50 transition-colors">
-                                    <td class="py-4">
-                                        <div class="flex items-center space-x-3">
+                                <tr
+                                    class="border-b border-primary/10 hover:bg-gradient-to-r hover:from-yellow-50 hover:to-cream transition-all duration-200">
+                                    <td class="px-6 py-3">
+                                        <div class="flex items-center gap-3">
                                             <div
-                                                class="w-10 h-10 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center">
-                                                <i class="fas fa-book-open text-primary"></i>
+                                                class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary/70 flex items-center justify-center shadow-md shadow-primary/20">
+                                                <i class="fas fa-book-open text-white"></i>
                                             </div>
                                             <div>
-                                                <p class="font-medium">{{ $partie->titre }}</p>
-                                                <p class="text-sm text-gray-500">Cour {{ $partie->order_cour }} du
-                                                    {{ $partie->niveau }}</p>
+                                                <p class="font-medium text-gray-800">{{ $partie->titre }}</p>
+                                                <p class="text-xs text-gray-500">Chapitre
+                                                    {{ sprintf('%02d', $partie->order) }}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="py-4">
-                                        <p class="font-medium">{{ $partie->cours_titre }}</p>
+                                    <td class="px-6 py-3">
+                                        <p class="font-medium text-gray-700">{{ $partie->cours_titre }}</p>
                                     </td>
-                                    <td class="py-4">
-                                        <span
-                                            class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">{{ $partie->matiere_cour }}</span>
+                                    <td class="px-6 py-3">
+                                        <div
+                                            class="inline-flex items-center px-2.5 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-medium">
+                                            <i class="fas fa-book mr-1.5"></i>
+                                            {{ $partie->matiere_cour }}
+                                        </div>
                                     </td>
-                                    <td class="py-4">
-                                        <span
-                                            class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">{{ $partie->niveau }}</span>
+                                    <td class="px-6 py-3">
+                                        <div
+                                            class="inline-flex items-center px-2.5 py-1 
+                                            @if ($partie->niveau == 'tron_commun') bg-yellow-100 text-yellow-800 
+                                            @elseif($partie->niveau == 'premier_bac') bg-green-100 text-green-800 
+                                            @else bg-purple-100 text-purple-800 @endif 
+                                            rounded-full text-xs font-medium">
+                                            <i class="fas fa-graduation-cap mr-1.5"></i>
+                                            {{ $partie->niveau }}
+                                        </div>
                                     </td>
-                                    <td class="py-4">
-                                        <div class="flex space-x-2">
-
+                                    <td class="px-6 py-3">
+                                        <div class="flex items-center space-x-3">
                                             <button onclick="openPartieModal({{ $partie->id }})"
-                                                class="p-2 text-green-500 hover:bg-green-100 rounded-lg transition-colors"
-                                                title="Ajouter des parties">
-                                                <i class="fas fa-edit"></i>
+                                                class="group relative rounded-full p-2 bg-green-50 hover:bg-green-100 transition-colors"
+                                                title="Modifier">
+                                                <i class="fas fa-edit text-green-600"></i>
+                                                <span
+                                                    class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Modifier</span>
                                             </button>
-                                            <a href="#"
-                                                class="p-2 text-blue-500 hover:bg-blue-100 rounded-lg transition-colors"
+                                            <button
+                                                class="group relative rounded-full p-2 bg-blue-50 hover:bg-blue-100 transition-colors"
                                                 title="Voir détails">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <form action="{{ route('deletePartieCour',$partie->id)}}" method="POST">
+                                                <i class="fas fa-eye text-blue-600"></i>
+                                                <span
+                                                    class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Voir
+                                                    détails</span>
+                                            </button>
+                                            <form action="{{ route('deletePartieCour', $partie->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                
-                                                <button type="submit" class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors" title="Supprimer">
-                                                    <i class="fas fa-trash"></i>
+                                                <button type="submit"
+                                                    class="group relative rounded-full p-2 bg-red-50 hover:bg-red-100 transition-colors"
+                                                    title="Supprimer">
+                                                    <i class="fas fa-trash text-red-600"></i>
+                                                    <span
+                                                        class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Supprimer</span>
                                                 </button>
                                             </form>
                                         </div>

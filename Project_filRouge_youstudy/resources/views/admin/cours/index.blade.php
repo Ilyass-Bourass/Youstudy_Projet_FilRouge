@@ -111,76 +111,96 @@
                     </div>
                 </div>
 
-                <!-- Table des cours -->
+                <!-- Table des cours - Version modernisée -->
                 <div class="overflow-x-auto">
-                    <table class="w-full">
+                    <table class="min-w-full rounded-xl overflow-hidden">
                         <thead>
-                            <tr class="text-left border-b border-primary border-opacity-20">
-                                <th class="pb-4 text-gray-600">Titre du Cours</th>
-                                <th class="pb-4 text-gray-600">Niveau</th>
-                                <th class="pb-4 text-gray-600">Matière</th>
-                                <th class="pb-4 text-gray-600">Parties</th>
-                                <th class="pb-4 text-gray-600">Actions</th>
+                            <tr class="bg-gradient-to-r from-primary/20 to-secondary/20 text-left">
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Titre du Cours</th>
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Niveau</th>
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Matière</th>
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Parties</th>
+                                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-primary divide-opacity-20">
+                        <tbody>
                             @foreach ($cours as $cour)
-                                <tr class="hover:bg-white hover:bg-opacity-50 transition-colors">
-                                    <td class="py-4">
-                                        <div class="flex items-center space-x-3">
+                                <tr
+                                    class="border-b border-primary/10 hover:bg-gradient-to-r hover:from-yellow-50 hover:to-cream transition-all duration-200">
+                                    <td class="px-6 py-3">
+                                        <div class="flex items-center gap-3">
                                             <div
-                                                class="w-10 h-10 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center">
-                                                <i class="fas fa-book text-primary"></i>
+                                                class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary/70 flex items-center justify-center shadow-md shadow-primary/20">
+                                                <i class="fas fa-book text-white"></i>
                                             </div>
                                             <div>
-                                                <p class="font-medium">{{ $cour->titre }}</p>
-                                                <p class="text-sm text-gray-500">2 parties</p>
+                                                <p class="font-medium text-gray-800">{{ $cour->titre }}</p>
+                                                <p class="text-xs text-gray-500">Cours #{{ $cour->order_cour }}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="py-4">
-                                        <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
+                                    <td class="px-6 py-3">
+                                        <div
+                                            class="inline-flex items-center px-2.5 py-1 
+                                            @if ($cour->niveau == 'tron_commun') bg-yellow-100 text-yellow-800 
+                                            @elseif($cour->niveau == 'premier_bac') bg-green-100 text-green-800 
+                                            @else bg-purple-100 text-purple-800 @endif 
+                                            rounded-full text-xs font-medium">
+                                            <i class="fas fa-graduation-cap mr-1.5"></i>
                                             {{ $cour->niveau }}
-                                        </span>
+                                        </div>
                                     </td>
-                                    <td class="py-4">
-                                        <span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm">
+                                    <td class="px-6 py-3">
+                                        <div
+                                            class="inline-flex items-center px-2.5 py-1
+                                            @if ($cour->matiere_cour == 'math') bg-blue-100 text-blue-600
+                                            @elseif($cour->matiere_cour == 'pc') bg-indigo-100 text-indigo-600
+                                            @else bg-green-100 text-green-600 @endif
+                                            rounded-full text-xs font-medium">
+                                            <i class="fas fa-atom mr-1.5"></i>
                                             {{ $cour->matiere_cour }}
-                                        </span>
+                                        </div>
                                     </td>
-                                    <td class="py-4 text-gray-600">3 parties</td>
-                                    <td class="py-4">
-                                        <div class="flex space-x-2">
-                                            <!-- Modifier -->
+                                    <td class="px-6 py-3">
+                                        <div
+                                            class="inline-flex items-center px-2.5 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-medium">
+                                            <i class="fas fa-puzzle-piece mr-1.5 text-primary"></i>
+                                            3 parties
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <div class="flex items-center space-x-3">
                                             <button onclick="window.location.href='{{ Route('edit_cour', $cour->id) }}'"
-                                                class="p-2 text-primary hover:bg-primary hover:bg-opacity-10 rounded-lg transition-colors"
+                                                class="group relative rounded-full p-2 bg-green-50 hover:bg-green-100 transition-colors"
                                                 title="Modifier">
-                                                <i class="fas fa-edit"></i>
+                                                <i class="fas fa-edit text-green-600"></i>
+                                                <span
+                                                    class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Modifier</span>
                                             </button>
-
-                                            <!-- Ajouter Parties -->
                                             <button onclick="openPartieModal({{ $cour->id }})"
-                                                class="p-2 text-green-500 hover:bg-green-100 rounded-lg transition-colors"
-                                                title="Ajouter des parties">
-                                                <i class="fas fa-puzzle-piece"></i>
+                                                class="group relative rounded-full p-2 bg-amber-50 hover:bg-amber-100 transition-colors"
+                                                title="Ajouter parties">
+                                                <i class="fas fa-puzzle-piece text-amber-600"></i>
+                                                <span
+                                                    class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Ajouter
+                                                    parties</span>
                                             </button>
-
-                                            <!-- Voir Détails -->
-
                                             <button
-                                                class="p-2 text-blue-500 hover:bg-blue-100 rounded-lg transition-colors"
-                                                title="Voir les détails">
-                                                <i class="fas fa-eye"></i>
+                                                class="group relative rounded-full p-2 bg-blue-50 hover:bg-blue-100 transition-colors"
+                                                title="Voir détails">
+                                                <i class="fas fa-eye text-blue-600"></i>
+                                                <span
+                                                    class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Voir
+                                                    détails</span>
                                             </button>
-
-
-                                            <!-- Supprimer -->
                                             <form method="POST" action={{ route('delete_cour', $cour->id) }}>
                                                 @csrf
-                                                <button
-                                                    class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
+                                                <button type="submit"
+                                                    class="group relative rounded-full p-2 bg-red-50 hover:bg-red-100 transition-colors"
                                                     title="Supprimer">
-                                                    <i class="fas fa-trash"></i>
+                                                    <i class="fas fa-trash text-red-600"></i>
+                                                    <span
+                                                        class="absolute -top-8 left-1/2 -translate-x-1/2 w-max py-1 px-2 bg-gray-800 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">Supprimer</span>
                                                 </button>
                                             </form>
                                         </div>
@@ -500,7 +520,7 @@
                             tooltip: 'Insérer une formule mathématique',
                             onAction: function() {
                                 const formula = prompt('Entrez votre formule LaTeX:',
-                                '\\sum_{i=1}^{n} x_i');
+                                    '\\sum_{i=1}^{n} x_i');
                                 if (formula) {
                                     editor.insertContent('$$' + formula + '$$');
                                 }

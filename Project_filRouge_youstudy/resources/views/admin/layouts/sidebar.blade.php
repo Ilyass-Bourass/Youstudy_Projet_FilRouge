@@ -76,7 +76,7 @@
    
 
         <!-- Quiz -->
-        <a href="#" 
+        <a href="{{ route('quiz') }}" 
            class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-primary hover:bg-opacity-20 hover:text-secondary transition-all group">
             <div class="w-10 h-10 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center group-hover:bg-secondary group-hover:bg-opacity-10">
                 <i class="fas fa-question-circle text-lg text-primary group-hover:text-secondary"></i>

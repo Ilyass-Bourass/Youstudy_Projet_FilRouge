@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourController;
 use App\Http\Controllers\PartieCourController;
+use App\Http\Controllers\QuestionsQuizController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 use App\Models\PartieCour;
@@ -39,17 +40,19 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     
 
-    Route::get('/dashboardAdmin',[UserController::class,'dashboardAdmin'])->name('dashboardAdmin');
-    Route::get('users',[UserController::class,'index'])->name('users'); 
+    Route::get('/dashboardAdmin/statistiques',[UserController::class,'dashboardAdmin'])->name('dashboardAdmin');
+    Route::get('/dashboardAdmin/users',[UserController::class,'index'])->name('users'); 
 
-    Route::get('/chapitres',[PartieCourController::class,'index'])->name('chapitres');
+ 
+    Route::get('/dashboardAdmin/chapitres',[PartieCourController::class,'index'])->name('chapitres');
+    Route::get('/dashboardAdmin/quiz',[QuizController::class,'index'])->name('quiz');
     
-    Route::get('/cours',[CourController::class,'index'])->name('cours');
+    Route::get('/dashboardAdmin/cours',[CourController::class,'index'])->name('cours');
     // Crud des cours dans le dashboard admin
-    Route::post('Create_cour',[CourController::class,'create'])->name('Create_cour');
-    Route::post('/deleteCour/{id}',[CourController::class,'destroy'])->name('delete_cour');
-    Route::get('/editCour/{id}',[CourController::class,'edit'])->name('edit_cour');
-    Route::put('/updateCour/{id}', [CourController::class, 'update'])->name('update_cour');
+    Route::post('/dashboardAdmin/cours/Create_cour',[CourController::class,'create'])->name('Create_cour');
+    Route::post('/dashboardAdmin/cours/deleteCour/{id}',[CourController::class,'destroy'])->name('delete_cour');
+    Route::get('/dashboardAdmin/cours/editCour/{id}',[CourController::class,'edit'])->name('edit_cour');
+    Route::put('/dashboardAdmin/cours/updateCour/{id}', [CourController::class, 'update'])->name('update_cour');
 
     // Ajout d' une nouvelle partie de cour
     Route::post('/addChapitre',[PartieCourController::class,'create'])->name('addChapitre');
@@ -64,6 +67,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/update-partie-cour', [PartieCourController::class, 'update'])->name('updatePartieCour');
     Route::delete('/deletePartieCour/{id}',[PartieCourController::class,'destroy'])->name('deletePartieCour');
 
+    Route::get('/showQuestionsfetch/{id}',[QuestionsQuizController::class,'showQuestionsfetch'])->name('showQuestionsfetch');
+    Route::put('/update-questions-quiz', [QuestionsQuizController::class, 'update'])->name('updateQuestionsQuiz');
 });
 
 
