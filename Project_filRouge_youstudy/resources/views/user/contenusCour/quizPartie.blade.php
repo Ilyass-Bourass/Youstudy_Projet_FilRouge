@@ -98,12 +98,14 @@
                             (Mini Quiz)</h1>
                         <p class="text-gray-600">Chapitre {{ sprintf('%02d', $partieCour->order) }}</p>
                     </div>
-                    @if(Auth::user()->role == 'user_premium')
-                        <div class="bg-yellow-light text-orange-primary font-semibold px-4 py-2 rounded-full">Premium Member</div>
+                    @if (Auth::user()->role == 'user_premium')
+                        <div class="bg-yellow-light text-orange-primary font-semibold px-4 py-2 rounded-full">Premium
+                            Member</div>
                     @else
-                    <button class="bg-green-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
-                        <i class="fas fa-crown mr-2"></i>Premium Active
-                    </button>
+                        <button
+                            class="bg-green-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
+                            <i class="fas fa-crown mr-2"></i>Premium Active
+                        </button>
                     @endif
                 </div>
             </div>
@@ -147,51 +149,99 @@
                     <div class="bg-white rounded-2xl p-6 card-shadow mb-6">
                         <h2 class="text-2xl font-bold text-gray-800 mb-6">Mini Quiz - </h2>
 
-                        @if(Auth::user()->role == 'user_premium')
-                            <!-- Mini Quiz Form -->
-                            <form action="{{ route('traitementQuiz') }}" method="POST" class="space-y-8">
-                                @csrf
-
-                                @foreach ($questionsQuiz as $index => $question)
-                                    <div class="p-4 bg-yellow-light bg-opacity-30 rounded-xl shadow-sm">
-                                        <h3 class="font-semibold text-gray-800 mb-4">
-                                            <span class="text-red-500 font-size-16">Question
-                                                {{ sprintf('%02d', $index + 1) }} :</span>
-                                            {{ $question->question }}
-                                        </h3>
-
-                                        <!-- Hidden inputs -->
-                                        <input type="hidden" name="correct_answers[{{ $question->id }}]"
-                                            value="{{ $question->correct_answer }}">
-                                        <input type="hidden" name="quiz_id" value="{{ $question->quiz_id }}">
-
-                                        <div class="space-y-3">
-                                            @foreach ($question->propositions as $key => $proposition)
-                                                <label
-                                                    class="flex items-center p-3 bg-white rounded-lg hover:bg-orange-light hover:text-white transition-all cursor-pointer">
-                                                    <input type="radio" required name="question[{{ $question->id }}]"
-                                                        value={{ $key + 1 }} class="mr-3">
-                                                    <span>{{ $proposition }}</span>
-                                                </label>
-                                            @endforeach
+                        @if (Auth::user()->role == 'user_premium')
+                            <!-- Affichage des résultats du quiz (version simplifiée) -->
+                            @if (session('score') !== null)
+                                @if (session('isPerfectScore'))
+                                    <!-- Affichage pour un score parfait -->
+                                    <div class="bg-green-50 rounded-2xl p-8 text-center mb-8">
+                                        <div class="flex justify-center mb-4">
+                                            <div class="bg-green-100 p-4 rounded-full">
+                                                <i class="fas fa-trophy text-5xl text-green-500"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
 
-                                <!-- Submit Button -->
-                                <div class="flex justify-end">
-                                    <button type="submit"
-                                        class="bg-orange-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
-                                        Valider mes réponses
-                                    </button>
-                                </div>
-                            </form>
+                                        <h3 class="text-2xl font-bold text-green-600 mb-2">Félicitations !</h3>
+                                        <p class="text-lg text-green-600 mb-4">Score parfait :
+                                            {{ session('score') }}/{{ session('totalQuestions') }}</p>
+
+                                        <a href="#"
+                                            class="inline-block bg-orange-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
+                                            <i class="fas fa-arrow-right mr-2"></i>Passer au chapitre suivant
+                                        </a>
+                                    </div>
+                                @else
+                                    <!-- Affichage pour les scores non parfaits -->
+                                    <div class="bg-red-50 border border-red-200 rounded-2xl p-8 text-center mb-8">
+                                        <div class="flex justify-center mb-4">
+                                            <div class="bg-red-100 p-4 rounded-full">
+                                                <i class="fas fa-times-circle text-5xl text-red-500"></i>
+                                            </div>
+                                        </div>
+
+                                        <h3 class="text-2xl font-bold text-red-600 mb-2">Malheureusement !</h3>
+                                        <p class="text-lg text-red-600 mb-4">
+                                            Vous avez obtenu {{ session('score') }}/{{ session('totalQuestions') }}
+                                        </p>
+                                        <p class="text-gray-700 mb-6">Vous n'avez pas répondu correctement à toutes les
+                                            questions. Essayez une autre fois.</p>
+
+                                        <button onclick="window.location.reload();"
+                                            class="bg-orange-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
+                                            <i class="fas fa-redo mr-2"></i>Essayer à nouveau
+                                        </button>
+                                    </div>
+                                @endif
+                            @endif
+
+                            <!-- Mini Quiz Form - Caché si l'utilisateur a obtenu un score parfait -->
+                            @if (!session('isPerfectScore'))
+                                <form action="{{ route('traitementQuiz') }}" method="POST" class="space-y-8">
+                                    @csrf
+
+                                    @foreach ($questionsQuiz as $index => $question)
+                                        <div class="p-4 bg-yellow-light bg-opacity-30 rounded-xl shadow-sm">
+                                            <h3 class="font-semibold text-gray-800 mb-4">
+                                                <span class="text-red-500 font-size-16">Question
+                                                    {{ sprintf('%02d', $index + 1) }} :</span>
+                                                {{ $question->question }}
+                                            </h3>
+
+                                            <!-- Hidden inputs -->
+                                            <input type="hidden" name="correct_answers[{{ $question->id }}]"
+                                                value="{{ $question->correct_answer }}">
+                                            <input type="hidden" name="quiz_id" value="{{ $question->quiz_id }}">
+
+                                            <div class="space-y-3">
+                                                @foreach ($question->propositions as $key => $proposition)
+                                                    <label
+                                                        class="flex items-center p-3 bg-white rounded-lg hover:bg-orange-light hover:text-white transition-all cursor-pointer">
+                                                        <input type="radio" required
+                                                            name="question[{{ $question->id }}]"
+                                                            value={{ $key + 1 }} class="mr-3">
+                                                        <span>{{ $proposition }}</span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <!-- Submit Button -->
+                                    <div class="flex justify-end">
+                                        <button type="submit"
+                                            class="bg-orange-primary text-white px-6 py-3 rounded-xl hover:bg-orange-light transition-all">
+                                            Valider mes réponses
+                                        </button>
+                                    </div>
+                                </form>
+                            @endif
                         @else
                             <div class="flex flex-col items-center justify-center p-8 text-center">
                                 <i class="fas fa-crown text-6xl text-orange-primary mb-4"></i>
                                 <h3 class="text-2xl font-bold text-gray-800 mb-3">Contenu Premium</h3>
                                 <p class="text-gray-600 mb-6">Ce quiz est réservé aux membres premium</p>
-                                <a href="#" class="bg-orange-primary text-white px-8 py-3 rounded-xl hover:bg-orange-light transition-all">
+                                <a href="#"
+                                    class="bg-orange-primary text-white px-8 py-3 rounded-xl hover:bg-orange-light transition-all">
                                     <i class="fas fa-crown mr-2"></i>Activer Premium
                                 </a>
                             </div>
