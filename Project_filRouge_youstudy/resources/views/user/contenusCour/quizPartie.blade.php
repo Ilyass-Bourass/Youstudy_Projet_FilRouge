@@ -84,11 +84,11 @@
         <!-- Main Content -->
         <div class="flex-1 overflow-auto p-4 md:p-8">
             <!-- Breadcrumb -->
-            <div class="flex items-center mb-6 text-sm">
+            {{-- <div class="flex items-center mb-6 text-sm">
                 <a href="{{ route('myCourses') }}" class="text-gray-500 hover:text-orange-primary">
                     <i class="fas fa-arrow-left mr-2"></i>Retour aux chapitres
                 </a>
-            </div>
+            </div> --}}
 
             <!-- Course Title -->
             <div class="bg-white rounded-2xl p-4 md:p-8 mb-8 card-shadow hover-scale">
