@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\PartieCour;
 use App\Models\Quiz;
 use App\Models\Cour;
+use App\Models\QuestionsQuiz;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -63,6 +64,32 @@ class UserController extends Controller
         ];
         
         return view('admin.dashboard.index',compact('statistiques'));
+    }
+
+    public function dashboardUser(){
+        $nombreCoursDisponibles = PartieCour::all()->count();
+        $nombreQustions = QuestionsQuiz::all()->count();
+        $nombreUserPremium = User::where('role', 'user_premium')->count();
+        $nombreCoursMathematiques = PartieCour::join('cours', 'partie_cours.cour_id', '=', 'cours.id')
+            ->where('cours.matiere_cour', 'math')
+            ->count();
+        $nombreCoursPhysique = PartieCour::join('cours', 'partie_cours.cour_id', '=', 'cours.id')
+            ->where('cours.matiere_cour', 'pc')
+            ->count();
+        $nombreCoursSvt = PartieCour::join('cours', 'partie_cours.cour_id', '=', 'cours.id')
+            ->where('cours.matiere_cour', 'svt')
+            ->count();
+        $statistiques = [
+            'nombreCoursDisponibles' => $nombreCoursDisponibles,
+            'nombreQustions' => $nombreQustions,
+            'nombreUserPremium' => $nombreUserPremium,
+            'nombreCoursMathematiques' => $nombreCoursMathematiques,
+            'nombreCoursPhysique' => $nombreCoursPhysique,
+            'nombreCoursSvt' => $nombreCoursSvt,
+        ];
+        
+
+        return view('user.dashboardUser',compact('statistiques'));
     }
 
 }

@@ -34,10 +34,10 @@
             <span class="ml-3">My Courses</span>
         </a>
 
-        <a href="#" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-gray-700">
+        {{-- <a href="#" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-gray-700">
             <i class="fas fa-calendar w-5"></i>
             <span class="ml-3">Schedule</span>
-        </a>
+        </a> --}}
 
         <a href="#" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-gray-700">
             <i class="fas fa-chart-line w-5"></i>

@@ -84,14 +84,7 @@
             <span class="ml-3 font-medium">Quiz</span>
         </a>
 
-        <!-- Exercices -->
-        <a href="#" 
-           class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-primary hover:bg-opacity-20 hover:text-secondary transition-all group">
-            <div class="w-10 h-10 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center group-hover:bg-secondary group-hover:bg-opacity-10">
-                <i class="fas fa-pencil-alt text-lg text-primary group-hover:text-secondary"></i>
-            </div>
-            <span class="ml-3 font-medium">Exercices</span>
-        </a>
+        
 
         
     </nav>

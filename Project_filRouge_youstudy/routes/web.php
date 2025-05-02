@@ -75,9 +75,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:user,user_premium'])->group(function () {
 
-    Route::get('/dashboardUser',function(){
-        return view('user.dashboardUser');
-    })->name('dashboardUser');
+    Route::get('/dashboardUser',[UserController::class,'dashboardUser'])->name('dashboardUser');
 
     Route::get('/myCourses',function(){
         return view('user.myCourses');

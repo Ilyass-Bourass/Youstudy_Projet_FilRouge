@@ -251,12 +251,12 @@
             </div>
         </div>
 
-        <!-- Modal Ajout Partie -->
+        <!-- Modal modifier Partie -->
         <div id="partieModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
             <div class="flex items-center justify-center min-h-screen p-4">
                 <div class="glass-effect rounded-2xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-bold text-secondary">Ajouter une Partie au Cours</h3>
+                        <h3 class="text-2xl font-bold text-secondary">Modifier une Partie au Cours</h3>
                         <button onclick="closePartieModal()" class="text-gray-500 hover:text-gray-700">
                             <i class="fas fa-times "></i>
                         </button>
